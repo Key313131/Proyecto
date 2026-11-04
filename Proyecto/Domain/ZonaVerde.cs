@@ -174,7 +174,7 @@ namespace Proyecto.Domain
 
         public override string ToString()
         {
-            return $"[{Id}] {Nombre} ({Vegetacion}) - {AreaM2: N1} m²";
+            return $"[{Id}] {Nombre} ({Vegetacion}) - {AreaM2:N1} m²";
         }
     }
 }

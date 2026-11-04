@@ -6,6 +6,6 @@ namespace Proyecto.Contracts
 {
     internal interface IUnitOfWork
     {
-        void commit();
+        void Commit();
     }
 }

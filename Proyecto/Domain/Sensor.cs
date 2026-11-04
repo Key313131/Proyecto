@@ -14,7 +14,10 @@ namespace Proyecto.Domain
 
         public long ZonaId 
         {   
-            get => _zonaId;
+            get 
+            {
+                return _zonaId;
+            } 
             set
             {
                 if (value <= 0) 
@@ -75,7 +78,7 @@ namespace Proyecto.Domain
             return new Sensor 
             { 
                 Id = id, 
-                _zonaId = zona, 
+                ZonaId = zona, 
                 Tipo = tipo, 
                 x = x, 
                 y = y, 
