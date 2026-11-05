@@ -36,7 +36,7 @@ namespace Proyecto.Domain
         public string Unidad => Tipo switch
         {
             TipoSensor.HumedadSuelo => "%",
-            TipoSensor.Caudal => "L/min",
+            TipoSensor.Caudal => "L/min", // remover posiblemente
             TipoSensor.Temperatura => "°C",
             TipoSensor.Lluvia => "mm",
             _ => ""

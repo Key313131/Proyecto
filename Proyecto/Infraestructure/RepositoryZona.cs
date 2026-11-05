@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Proyecto.Infraestructure
 {
-    internal class RepositoryZona : Repository<ZonaVerde, long>
+    internal class RepositoryZona : RepositoryEntidad<ZonaVerde>
     {
         #region Singleton
         private static RepositoryZona? instance;

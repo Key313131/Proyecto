@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Proyecto.Infraestructure
 {
-    internal class RepositoryLectura : Repository<Lectura, long>
+    internal class RepositoryLectura : RepositoryEntidad<Lectura>
     {
         #region Singleton
         private static RepositoryLectura? instance;
@@ -41,7 +41,7 @@ namespace Proyecto.Infraestructure
             base.Update(entity);
         }
 
-        // "Llave foránea": la lectura debe apuntar a un sensor que exista.
+        // Llave forAnea: la lectura debe apuntar a un sensor que exista.
         private static void ValidarSensor(Lectura lectura)
         {
             if (!RepositorySensor.GetInstance().Exists(lectura.SensorId))

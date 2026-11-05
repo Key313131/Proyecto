@@ -7,7 +7,7 @@ using System.Text;
 
 namespace Proyecto.Infraestructure
 {
-    internal class RepositorySensor : Repository<Sensor, long>
+    internal class RepositorySensor : RepositoryEntidad<Sensor>
     {
         #region Singleton
         private static RepositorySensor? instance;
@@ -43,6 +43,7 @@ namespace Proyecto.Infraestructure
 
         public override void Delete(long id)
         {
+            
             if (RepositoryLectura.GetInstance().GetBySensor(id).Any())
             {
                 throw new DomainExceptions(
