@@ -10,7 +10,8 @@ namespace Proyecto.Domain
     internal class ZonaVerde : EntidadBase, IFactory<ZonaVerde>, ISerialize<ZonaVerde>
     {
         private string _nombre = "Sin nombre";
-        private double _areaM2 = 1;
+        private double _anchoM = 1;
+        private double _largoM = 1;
         private double _kc = 1.0; // coeficiente de cultivo 
         private double _humedadMinima = 30;
         private double _profundidadRaizM = 0.3;
@@ -39,21 +40,43 @@ namespace Proyecto.Domain
 
         public TipoVegetacion Vegetacion { get; set; } = TipoVegetacion.Cesped;
 
-        public double AreaM2
+        public double AnchoM
         {
-            get 
-            { 
-                return _areaM2; 
+            get
+            {
+                return _anchoM;
             }
             set
             {
                 if (value <= 0)
                 {
-                    throw new DomainExceptions("El área debe ser mayor que 0 m².");
+                    throw new DomainExceptions("El ancho debe ser mayor que 0 m.");
                 }
-                _areaM2 = value;
+                _anchoM = value;
             }
         }
+
+        public double LargoM
+        {
+            get
+            {
+                return _largoM;
+            }
+            set
+            {
+                if (value <= 0)
+                {
+                    throw new DomainExceptions("El largo debe ser mayor que 0 m.");
+                }
+                _largoM = value;
+            }
+        }
+
+        // El área se calcula: así nunca puede contradecir al ancho y al largo.
+        public double AreaM2 => AnchoM * LargoM;
+
+        // Una zona no se borra, se desactiva: su Id nunca se vuelve a usar.
+        public bool Activo { get; set; } = true;
 
         // coordenadas en metros 
         public double X { get; set; }
@@ -125,30 +148,40 @@ namespace Proyecto.Domain
             return Deserialize(textCsv); 
         }
 
-        public static ZonaVerde Create(long id, string nombre, TipoVegetacion vegetacion, double areaM2,
-                                      double x, double y, double kc, double humedadMinima, double profundidadRaizM)
+        public static ZonaVerde Create(long id, string nombre, TipoVegetacion vegetacion, double anchoM, double largoM,
+                                      double x, double y, double kc, double humedadMinima, double profundidadRaizM,
+                                      bool activo = true)
         {
             return new ZonaVerde
             {
                 Id = id,
                 Nombre = nombre,
                 Vegetacion = vegetacion,
-                AreaM2 = areaM2,
+                AnchoM = anchoM,
+                LargoM = largoM,
                 X = x,
                 Y = y,
                 Kc = kc,
                 HumedadMinima = humedadMinima,
-                ProfundidadRaizM = profundidadRaizM
+                ProfundidadRaizM = profundidadRaizM,
+                Activo = activo
             };
         }
 
-        // Formato: Id;Nombre;Vegetacion;AreaM2;X;Y;Kc;HumedadMinima;ProfundidadRaizM
-        private const int Campos = 9;
+        // Devuelve una copia: si el repositorio rechaza el cambio, la original queda intacta.
+        public ZonaVerde ConEstado(bool activo)
+        {
+            return Create(Id, Nombre, Vegetacion, AnchoM, LargoM, X, Y, Kc,
+                          HumedadMinima, ProfundidadRaizM, activo);
+        }
+
+        // Formato: Id;Nombre;Vegetacion;AnchoM;LargoM;X;Y;Kc;HumedadMinima;ProfundidadRaizM;Activo
+        private const int Campos = 11;
 
         public static string Serialize(ZonaVerde z)
         {
-            return Csv.Unir(z.Id, z.Nombre, z.Vegetacion, z.AreaM2, z.X, z.Y,
-                            z.Kc, z.HumedadMinima, z.ProfundidadRaizM);
+            return Csv.Unir(z.Id, z.Nombre, z.Vegetacion, z.AnchoM, z.LargoM, z.X, z.Y,
+                            z.Kc, z.HumedadMinima, z.ProfundidadRaizM, z.Activo);
         }
 
         public static ZonaVerde Deserialize(string textCsv)
@@ -164,7 +197,9 @@ namespace Proyecto.Domain
                              Csv.Double(campos[5]),
                              Csv.Double(campos[6]), 
                              Csv.Double(campos[7]), 
-                             Csv.Double(campos[8]) );
+                             Csv.Double(campos[8]),
+                             Csv.Double(campos[9]),
+                             Csv.Bool(campos[10]) );
             }
             catch (Exception ex) when (ex is FormatException or OverflowException or ArgumentException or DomainExceptions)
             {
@@ -174,7 +209,7 @@ namespace Proyecto.Domain
 
         public override string ToString()
         {
-            return $"[{Id}] {Nombre} ({Vegetacion}) - {AreaM2:N1} m²";
+            return $"[{Id}] {Nombre} ({Vegetacion}) - {AreaM2:N1} m²{(Activo ? "" : " [inactiva]")}";
         }
     }
 }

@@ -1,4 +1,4 @@
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Windows.Forms;
 
@@ -11,30 +11,6 @@ namespace Proyecto.Presentacion
         {
             double ajustado = Math.Clamp(valor, (double)control.Minimum, (double)control.Maximum);
             control.Value = (decimal)ajustado;
-        }
-
-        public static void SeleccionarFila(DataGridView tabla, DataGridViewColumn columnaId, long? id)
-        {
-            tabla.ClearSelection();
-            tabla.CurrentCell = null;
-
-            foreach (DataGridViewRow fila in tabla.Rows)
-            {
-                if (fila.Cells[columnaId.Index].Value is long valor && valor == id)
-                {
-                    tabla.CurrentCell = fila.Cells[columnaId.Index];
-                    return;
-                }
-            }
-        }
-
-        public static long? IdSeleccionado(DataGridView tabla, DataGridViewColumn columnaId)
-        {
-            if (tabla.SelectedRows.Count == 1 && tabla.SelectedRows[0].Cells[columnaId.Index].Value is long id)
-            {
-                return id;
-            }
-            return null;
         }
 
         public static void Aviso(string mensaje)

@@ -86,6 +86,12 @@ namespace Proyecto.Domain
             };
         }
 
+        // Devuelve una copia: si el repositorio rechaza el cambio, el original queda intacto.
+        public Sensor ConEstado(bool activo)
+        {
+            return Create(Id, ZonaId, Tipo, x, y, activo);
+        }
+
         private const int campos = 6; // const = no permite cambiar el valor 
 
         public static string Serialize(Sensor sensor)

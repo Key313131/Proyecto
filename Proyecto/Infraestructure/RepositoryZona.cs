@@ -24,6 +24,23 @@ namespace Proyecto.Infraestructure
 
         private RepositoryZona() : base(Configuration.ArchivoZonas) { }
 
+        public override void Update(ZonaVerde entity)
+        {
+            List<Sensor> sensores = RepositorySensor.GetInstance().GetByZona(entity.Id).ToList();
+
+            if (!entity.Activo && sensores.Any(s => s.Activo))
+            {
+                throw new DomainExceptions("Primero desactive los sensores de esta zona.");
+            }
+
+            if (sensores.Any(s => s.x > entity.AnchoM || s.y > entity.LargoM))
+            {
+                throw new DomainExceptions("Con esas medidas algunos sensores quedarían fuera de la zona.");
+            }
+
+            base.Update(entity);
+        }
+
         public override void Delete(long id)
         {
             if (RepositorySensor.GetInstance().GetByZona(id).Any())
