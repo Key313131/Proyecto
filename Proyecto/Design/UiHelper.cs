@@ -6,15 +6,13 @@ namespace Proyecto.Presentacion
 {
     internal static class UiHelper
     {
-        // NumericUpDown.Value lanza una excepción si el valor está fuera de su rango.
-        // El CSV se puede editar a mano, así que primero se ajusta al rango del control.
+
         public static void Poner(NumericUpDown control, double valor)
         {
             double ajustado = Math.Clamp(valor, (double)control.Minimum, (double)control.Maximum);
             control.Value = (decimal)ajustado;
         }
 
-        // Una selección limpia: ninguna fila activa, o la fila del Id indicado.
         public static void SeleccionarFila(DataGridView tabla, DataGridViewColumn columnaId, long? id)
         {
             tabla.ClearSelection();
@@ -30,8 +28,6 @@ namespace Proyecto.Presentacion
             }
         }
 
-        // Se usa SelectedRows porque dentro de SelectionChanged CurrentRow puede
-        // seguir apuntando a la fila anterior.
         public static long? IdSeleccionado(DataGridView tabla, DataGridViewColumn columnaId)
         {
             if (tabla.SelectedRows.Count == 1 && tabla.SelectedRows[0].Cells[columnaId.Index].Value is long id)

@@ -1,9 +1,16 @@
-namespace Proyecto.Presentacion
+﻿namespace Proyecto.Design
 {
     partial class Principal
     {
+        /// <summary>
+        /// Required designer variable.
+        /// </summary>
         private System.ComponentModel.IContainer components = null;
 
+        /// <summary>
+        /// Clean up any resources being used.
+        /// </summary>
+        /// <param name="disposing">true if managed resources should be disposed; otherwise, false.</param>
         protected override void Dispose(bool disposing)
         {
             if (disposing && (components != null))
@@ -15,136 +22,49 @@ namespace Proyecto.Presentacion
 
         #region Windows Form Designer generated code
 
+        /// <summary>
+        /// Required method for Designer support - do not modify
+        /// the contents of this method with the code editor.
+        /// </summary>
         private void InitializeComponent()
         {
-            menuStrip1 = new MenuStrip();
-            archivoToolStripMenuItem = new ToolStripMenuItem();
-            salirToolStripMenuItem = new ToolStripMenuItem();
-            gestionToolStripMenuItem = new ToolStripMenuItem();
-            zonasVerdesToolStripMenuItem = new ToolStripMenuItem();
-            sensoresToolStripMenuItem = new ToolStripMenuItem();
-            ventanaToolStripMenuItem = new ToolStripMenuItem();
-            cascadaToolStripMenuItem = new ToolStripMenuItem();
-            mosaicoToolStripMenuItem = new ToolStripMenuItem();
-            statusStrip1 = new StatusStrip();
-            lblDatos = new ToolStripStatusLabel();
-            menuStrip1.SuspendLayout();
-            statusStrip1.SuspendLayout();
+            splitContainer1 = new SplitContainer();
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).BeginInit();
+            splitContainer1.SuspendLayout();
             SuspendLayout();
-            //
-            // menuStrip1
-            //
-            menuStrip1.Items.AddRange(new ToolStripItem[] { archivoToolStripMenuItem, gestionToolStripMenuItem, ventanaToolStripMenuItem });
-            menuStrip1.Location = new Point(0, 0);
-            menuStrip1.MdiWindowListItem = ventanaToolStripMenuItem;
-            menuStrip1.Name = "menuStrip1";
-            menuStrip1.Size = new Size(1000, 24);
-            menuStrip1.TabIndex = 0;
-            menuStrip1.Text = "menuStrip1";
-            //
-            // archivoToolStripMenuItem
-            //
-            archivoToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { salirToolStripMenuItem });
-            archivoToolStripMenuItem.Name = "archivoToolStripMenuItem";
-            archivoToolStripMenuItem.Size = new Size(60, 20);
-            archivoToolStripMenuItem.Text = "&Archivo";
-            //
-            // salirToolStripMenuItem
-            //
-            salirToolStripMenuItem.Name = "salirToolStripMenuItem";
-            salirToolStripMenuItem.Size = new Size(96, 22);
-            salirToolStripMenuItem.Text = "&Salir";
-            salirToolStripMenuItem.Click += salirToolStripMenuItem_Click;
-            //
-            // gestionToolStripMenuItem
-            //
-            gestionToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { zonasVerdesToolStripMenuItem, sensoresToolStripMenuItem });
-            gestionToolStripMenuItem.Name = "gestionToolStripMenuItem";
-            gestionToolStripMenuItem.Size = new Size(60, 20);
-            gestionToolStripMenuItem.Text = "&Gestión";
-            //
-            // zonasVerdesToolStripMenuItem
-            //
-            zonasVerdesToolStripMenuItem.Name = "zonasVerdesToolStripMenuItem";
-            zonasVerdesToolStripMenuItem.Size = new Size(143, 22);
-            zonasVerdesToolStripMenuItem.Text = "&Zonas verdes";
-            zonasVerdesToolStripMenuItem.Click += zonasVerdesToolStripMenuItem_Click;
-            //
-            // sensoresToolStripMenuItem
-            //
-            sensoresToolStripMenuItem.Name = "sensoresToolStripMenuItem";
-            sensoresToolStripMenuItem.Size = new Size(143, 22);
-            sensoresToolStripMenuItem.Text = "&Sensores";
-            sensoresToolStripMenuItem.Click += sensoresToolStripMenuItem_Click;
-            //
-            // ventanaToolStripMenuItem
-            //
-            ventanaToolStripMenuItem.DropDownItems.AddRange(new ToolStripItem[] { cascadaToolStripMenuItem, mosaicoToolStripMenuItem });
-            ventanaToolStripMenuItem.Name = "ventanaToolStripMenuItem";
-            ventanaToolStripMenuItem.Size = new Size(61, 20);
-            ventanaToolStripMenuItem.Text = "&Ventana";
-            //
-            // cascadaToolStripMenuItem
-            //
-            cascadaToolStripMenuItem.Name = "cascadaToolStripMenuItem";
-            cascadaToolStripMenuItem.Size = new Size(120, 22);
-            cascadaToolStripMenuItem.Text = "&Cascada";
-            cascadaToolStripMenuItem.Click += cascadaToolStripMenuItem_Click;
-            //
-            // mosaicoToolStripMenuItem
-            //
-            mosaicoToolStripMenuItem.Name = "mosaicoToolStripMenuItem";
-            mosaicoToolStripMenuItem.Size = new Size(120, 22);
-            mosaicoToolStripMenuItem.Text = "&Mosaico";
-            mosaicoToolStripMenuItem.Click += mosaicoToolStripMenuItem_Click;
-            //
-            // statusStrip1
-            //
-            statusStrip1.Items.AddRange(new ToolStripItem[] { lblDatos });
-            statusStrip1.Location = new Point(0, 628);
-            statusStrip1.Name = "statusStrip1";
-            statusStrip1.Size = new Size(1000, 22);
-            statusStrip1.TabIndex = 1;
-            statusStrip1.Text = "statusStrip1";
-            //
-            // lblDatos
-            //
-            lblDatos.Name = "lblDatos";
-            lblDatos.Size = new Size(31, 17);
-            lblDatos.Text = "Listo";
-            //
+            // 
+            // splitContainer1
+            // 
+            splitContainer1.Dock = DockStyle.Fill;
+            splitContainer1.Location = new Point(0, 0);
+            splitContainer1.Name = "splitContainer1";
+            // 
+            // splitContainer1.Panel1
+            // 
+            splitContainer1.Panel1.BackColor = Color.FromArgb(13, 34, 65);
+            // 
+            // splitContainer1.Panel2
+            // 
+            splitContainer1.Panel2.BackColor = Color.FromArgb(3, 14, 32);
+            splitContainer1.Size = new Size(1091, 554);
+            splitContainer1.SplitterDistance = 363;
+            splitContainer1.TabIndex = 0;
+            // 
             // Principal
-            //
+            // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
-            ClientSize = new Size(1000, 650);
-            Controls.Add(statusStrip1);
-            Controls.Add(menuStrip1);
-            IsMdiContainer = true;
-            MainMenuStrip = menuStrip1;
+            ClientSize = new Size(1091, 554);
+            Controls.Add(splitContainer1);
             Name = "Principal";
-            StartPosition = FormStartPosition.CenterScreen;
-            Text = "EcoFacility - Gestión hídrica de zonas verdes";
-            menuStrip1.ResumeLayout(false);
-            menuStrip1.PerformLayout();
-            statusStrip1.ResumeLayout(false);
-            statusStrip1.PerformLayout();
+            Text = "Principal";
+            ((System.ComponentModel.ISupportInitialize)splitContainer1).EndInit();
+            splitContainer1.ResumeLayout(false);
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion
 
-        private MenuStrip menuStrip1;
-        private ToolStripMenuItem archivoToolStripMenuItem;
-        private ToolStripMenuItem salirToolStripMenuItem;
-        private ToolStripMenuItem gestionToolStripMenuItem;
-        private ToolStripMenuItem zonasVerdesToolStripMenuItem;
-        private ToolStripMenuItem sensoresToolStripMenuItem;
-        private ToolStripMenuItem ventanaToolStripMenuItem;
-        private ToolStripMenuItem cascadaToolStripMenuItem;
-        private ToolStripMenuItem mosaicoToolStripMenuItem;
-        private StatusStrip statusStrip1;
-        private ToolStripStatusLabel lblDatos;
+        private SplitContainer splitContainer1;
     }
 }
