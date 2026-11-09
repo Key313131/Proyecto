@@ -1,4 +1,5 @@
 ﻿using Proyecto.Contracts;
+using Proyecto.DynamicStructure;
 using Proyecto.Exceptions;
 using Proyecto.Persistence;
 using System;
@@ -12,15 +13,14 @@ namespace Proyecto.Infraestructure
         where E : notnull
     {
         private readonly IDataStore<T> _store;
-        private readonly List<T> _cache;
+        private readonly Lista<T> _cache;
 
         public Repository(string path)
         {
             _store = new DataStore<T>(path);
-            _cache = _store.LoadAll().ToList(); //hay que cambiar la listas por las propias
+            _cache = _store.LoadAll();
         }
 
-        // hay que habalr sobre esto
         public virtual void Add(T entity)
         {
             if (Exists(entity.Id))
@@ -37,7 +37,7 @@ namespace Proyecto.Infraestructure
             {
                 throw new DomainExceptions($"No existe un registro con Id {entity.Id}.");
             }
-            _cache[index] = entity;
+            _cache.Set(index, entity);
         }
 
         public virtual void Delete(E id)
@@ -47,7 +47,7 @@ namespace Proyecto.Infraestructure
             {
                 throw new DomainExceptions($"No existe un registro con Id {id}.");
             }
-            _cache.Remove(entity);
+            _cache.Delete(entity);
         }
 
         public T? GetById(E id)

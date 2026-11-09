@@ -1,4 +1,5 @@
 ﻿using Proyecto.Contracts;
+using Proyecto.DynamicStructure;
 using System;
 using System.Collections.Generic;
 using System.Runtime.Serialization;
@@ -15,9 +16,9 @@ namespace Proyecto.Persistence
             _path = path;
         }
 
-        public IEnumerable<T> LoadAll()
+        public Lista<T> LoadAll()
         {
-            List<T> list = new List<T>();
+            Lista<T> list = new Lista<T>();
             
             if (!File.Exists(_path))
             {

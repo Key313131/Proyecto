@@ -14,14 +14,14 @@ namespace Proyecto.Infraestructure
 
         public static RepositoryZona GetInstance()
         {
-            if (instance == null)
+     
+        if (instance == null)
             {
                 instance = new RepositoryZona();
             }
             return instance;
         }
         #endregion
-
         private RepositoryZona() : base(Configuration.ArchivoZonas) { }
 
         public override void Update(ZonaVerde entity)

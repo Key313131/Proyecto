@@ -10,7 +10,7 @@ namespace Proyecto.Design
         private readonly RepositoryZona _repo;
         private readonly RepositorySensor _sensores;
 
-        // Evita que los eventos de los controles reaccionen a cambios hechos por código.
+        // evita que los eventos de los controles reaccionen a cambios hechos por código.
         private bool _cargando;
 
         public VistaZonas()
@@ -28,7 +28,7 @@ namespace Proyecto.Design
         private void CargarZonas(ZonaVerde? seleccionar)
         {
             _cargando = true;
-            cmbZona.DataSource = _repo.GetAll()
+            cmbZona.DataSource = _repo.GetAll() //halomolacha
                 .Select(z => new { z.Id, Texto = $"{z.Id} - {z.Nombre}{(z.Activo ? "" : " (inactiva)")}" })
                 .ToList();
             _cargando = false;

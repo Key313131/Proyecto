@@ -1,12 +1,13 @@
-﻿using System;
+﻿using Proyecto.DynamicStructure;
+using System;
 using System.Collections.Generic;
 using System.Text;
 
 namespace Proyecto.Contracts
 {
-    internal interface IDataStore<T>
+    internal interface IDataStore<T> where T : class
     {
-        IEnumerable<T> LoadAll();
+        Lista<T> LoadAll();
         void SaveAll(IEnumerable<T> list);
 
     }
