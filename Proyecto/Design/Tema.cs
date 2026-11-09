@@ -1,6 +1,5 @@
 ﻿namespace Proyecto.Design
 {
-    // Un solo lugar para los colores de la interfaz (los mismos de la ventana Sesion).
     internal static class Tema
     {
         public static readonly Color Fondo = Color.FromArgb(3, 14, 32);
@@ -9,8 +8,6 @@
         public static readonly Color Linea = Color.FromArgb(38, 62, 100);
         public static readonly Color Texto = Color.FromArgb(254, 255, 255);
 
-        // La tabla se configura desde código y no en Designer.cs: el diseñador de Visual
-        // Studio ya borró una vez las columnas y eso dejó colId en null.
         public static void Tabla(DataGridView tabla)
         {
             tabla.AutoGenerateColumns = false;
@@ -27,7 +24,6 @@
             tabla.GridColor = Linea;
             tabla.RowTemplate.Height = 36;
 
-            // Sin esta línea Windows ignora los colores del encabezado.
             tabla.EnableHeadersVisualStyles = false;
             tabla.ColumnHeadersBorderStyle = DataGridViewHeaderBorderStyle.Single;
             tabla.ColumnHeadersHeightSizeMode = DataGridViewColumnHeadersHeightSizeMode.DisableResizing;
@@ -54,7 +50,6 @@
             return columna;
         }
 
-        // ancho 0 significa que la columna ocupa todo el espacio libre.
         public static DataGridViewTextBoxColumn Columna(string propiedad, string titulo, int ancho)
         {
             DataGridViewTextBoxColumn columna = new DataGridViewTextBoxColumn();

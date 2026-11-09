@@ -3,7 +3,6 @@ using System.Drawing.Drawing2D;
 
 namespace Proyecto.Design
 {
-    // Dibuja una zona verde a escala, con sus sensores en la posición X, Y de cada uno.
     public class LienzoZona : Control
     {
         private const int Margen = 44;
@@ -21,7 +20,7 @@ namespace Proyecto.Design
 
         public LienzoZona()
         {
-            // Evita el parpadeo y vuelve a dibujar cuando cambia el tamaño.
+            // evita el parpadeo y vuelve a dibujar cuando cambia el tamaño
             DoubleBuffered = true;
             ResizeRedraw = true;
         }
@@ -48,7 +47,7 @@ namespace Proyecto.Design
                 return;
             }
 
-            // La misma escala en los dos ejes para que la zona no se deforme.
+           
             double escala = Math.Min((Width - 2.0 * Margen) / _zona.AnchoM,
                                      (Height - 2.0 * Margen) / _zona.LargoM);
             float ancho = (float)(_zona.AnchoM * escala);
@@ -105,13 +104,14 @@ namespace Proyecto.Design
             Color cabeza = sensor.Activo ? RojoSensor : GrisSensor;
             Color ondas = sensor.Activo ? NaranjaOndas : GrisSensor;
 
+            // circulo gris
             if (sensor.Id == _resaltado)
             {
                 using Pen anillo = new Pen(Color.White, 2);
                 g.DrawEllipse(anillo, x - 26, y - 22, 52, 52);
             }
 
-            // Tres ondas que salen hacia abajo desde la cabeza del sensor.
+            // onditas
             using (Pen lapiz = new Pen(ondas, 2.5f))
             {
                 for (int radio = 9; radio <= 21; radio += 6)
@@ -120,6 +120,8 @@ namespace Proyecto.Design
                 }
             }
 
+
+            // cabeza
             using (SolidBrush brocha = new SolidBrush(cabeza))
             {
                 g.FillRectangle(brocha, x - 8, y - 9, 16, 11);

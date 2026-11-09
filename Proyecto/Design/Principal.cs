@@ -16,11 +16,8 @@ namespace Proyecto.Design
             Mostrar(() => new VistaZonas(), btnZonas);
         }
 
-        // Pone una vista en el lado derecho. Recibe una función y no usa new T() porque
-        // new T() envuelve las excepciones y el catch de abajo no las reconocería.
         private void Mostrar<T>(Func<T> crear, Button boton) where T : UserControl
         {
-            // Si esa vista ya está en pantalla no hace falta crearla otra vez.
             if (panelContenido.Controls.OfType<T>().Any())
             {
                 return;
@@ -28,11 +25,11 @@ namespace Proyecto.Design
 
             try
             {
-                // El constructor de la vista carga los archivos: puede fallar.
+                
                 T vista = crear();
                 vista.Dock = DockStyle.Fill;
 
-                // Dispose libera la vista anterior y además la quita del panel.
+
                 while (panelContenido.Controls.Count > 0)
                 {
                     panelContenido.Controls[0].Dispose();
