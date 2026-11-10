@@ -3,7 +3,6 @@ using Proyecto.Infraestructure;
 
 namespace Proyecto.Design
 {
-    // Listado de solo lectura de sensores, filtrado por una zona o con todas.
     public partial class FrmListaSensores : Form
     {
         private const long TodasLasZonas = 0;
@@ -29,7 +28,7 @@ namespace Proyecto.Design
             dgvSensores.Columns.Add(Tema.Columna("y", "Y", 65));
             dgvSensores.Columns.Add(Tema.ColumnaActivo());
 
-            // El primer elemento no es una zona: es la opción de no filtrar.
+           
             var opciones = _zonas.GetAll()
                 .Select(z => new { z.Id, Texto = $"{z.Id} - {z.Nombre}" })
                 .ToList();
@@ -39,7 +38,7 @@ namespace Proyecto.Design
             cmbFiltro.SelectedValue = zonaInicial ?? TodasLasZonas;
         }
 
-        // Se ejecuta al asignar el filtro inicial y cada vez que el usuario lo cambia.
+
         private void cmbFiltro_SelectedIndexChanged(object sender, EventArgs e)
         {
             if (cmbFiltro.SelectedValue is not long zonaId)
@@ -47,10 +46,9 @@ namespace Proyecto.Design
                 return;
             }
 
-            IEnumerable<Sensor> sensores = zonaId == TodasLasZonas
-                ? _repo.GetAll()
-                : _repo.GetByZona(zonaId);
+            IEnumerable<Sensor> sensores = zonaId == TodasLasZonas ? _repo.GetAll() : _repo.GetByZona(zonaId);
 
+            // polimorfismo con interfaces
             dgvSensores.DataSource = sensores
                 .Select(s => new
                 {

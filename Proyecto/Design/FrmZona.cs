@@ -6,16 +6,13 @@ using System.ComponentModel;
 
 namespace Proyecto.Design
 {
-    // Formulario emergente: sirve para agregar (sin zona) y para actualizar (con zona).
     public partial class FrmZona : Form
     {
         private readonly RepositoryZona _repo;
         private readonly ZonaVerde _datos;
 
-        // null significa que se está creando una zona nueva.
         private long? _idActual;
 
-        // La vista lo lee al cerrar: si sigue en null, no se guardó nada.
         public long? IdGuardado { get; private set; }
 
         public FrmZona()
@@ -55,8 +52,6 @@ namespace Proyecto.Design
             {
                 long id = _idActual ?? _repo.SiguienteId();
 
-                // Se crea un objeto nuevo en vez de modificar el de la lista. Si un dato
-                // es inválido, Create lanza la excepción y la lista queda sin tocar.
                 ZonaVerde zona = ZonaVerde.Create(
                     id,
                     txtNombre.Text,
@@ -79,8 +74,6 @@ namespace Proyecto.Design
                     _repo.Update(zona);
                 }
 
-                // Antes de Commit: si escribir el archivo falla, la zona ya está en la
-                // lista y volver a pulsar Guardar no debe crearla por segunda vez.
                 _idActual = id;
                 IdGuardado = id;
 
@@ -102,8 +95,7 @@ namespace Proyecto.Design
             Close();
         }
 
-        // Validating se dispara al salir del campo. No se usa e.Cancel para no dejar
-        // al usuario atrapado en el TextBox.
+
         private void txtNombre_Validating(object sender, CancelEventArgs e)
         {
             string error = string.IsNullOrWhiteSpace(txtNombre.Text) ? "El nombre es obligatorio" : "";

@@ -48,9 +48,9 @@
             // label1
             // 
             label1.AutoSize = true;
-            label1.Location = new Point(20, 21);
+            label1.Location = new Point(12, 20);
             label1.Name = "label1";
-            label1.Size = new Size(20, 23);
+            label1.Size = new Size(22, 23);
             label1.TabIndex = 30;
             label1.Text = "Id";
             // 
@@ -58,19 +58,18 @@
             // 
             txtId.BackColor = Color.FromArgb(3, 14, 32);
             txtId.BorderStyle = BorderStyle.FixedSingle;
-            txtId.ForeColor = Color.White;
+            txtId.ForeColor = Color.FromArgb(174, 180, 194);
             txtId.Location = new Point(170, 18);
             txtId.Name = "txtId";
+            txtId.ReadOnly = true;
             txtId.Size = new Size(200, 30);
             txtId.TabIndex = 0;
-            txtId.ReadOnly = true;
             txtId.TabStop = false;
-            txtId.ForeColor = Color.FromArgb(174, 180, 194);
             // 
             // label2
             // 
             label2.AutoSize = true;
-            label2.Location = new Point(20, 65);
+            label2.Location = new Point(12, 65);
             label2.Name = "label2";
             label2.Size = new Size(40, 23);
             label2.TabIndex = 31;
@@ -80,7 +79,6 @@
             // 
             cmbZona.BackColor = Color.FromArgb(3, 14, 32);
             cmbZona.DisplayMember = "Nombre";
-            cmbZona.ValueMember = "Id";
             cmbZona.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbZona.FlatStyle = FlatStyle.Flat;
             cmbZona.ForeColor = Color.White;
@@ -88,11 +86,12 @@
             cmbZona.Name = "cmbZona";
             cmbZona.Size = new Size(200, 31);
             cmbZona.TabIndex = 1;
+            cmbZona.ValueMember = "Id";
             // 
             // label3
             // 
             label3.AutoSize = true;
-            label3.Location = new Point(20, 109);
+            label3.Location = new Point(12, 109);
             label3.Name = "label3";
             label3.Size = new Size(36, 23);
             label3.TabIndex = 32;
@@ -112,9 +111,9 @@
             // label4
             // 
             label4.AutoSize = true;
-            label4.Location = new Point(20, 153);
+            label4.Location = new Point(12, 152);
             label4.Name = "label4";
-            label4.Size = new Size(140, 23);
+            label4.Size = new Size(152, 23);
             label4.TabIndex = 33;
             label4.Text = "X desde la esquina (m)";
             // 
@@ -122,20 +121,20 @@
             // 
             nudX.BackColor = Color.FromArgb(3, 14, 32);
             nudX.BorderStyle = BorderStyle.FixedSingle;
+            nudX.DecimalPlaces = 2;
             nudX.ForeColor = Color.White;
             nudX.Location = new Point(170, 150);
+            nudX.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             nudX.Name = "nudX";
             nudX.Size = new Size(200, 30);
             nudX.TabIndex = 3;
-            nudX.DecimalPlaces = 2;
-            nudX.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             // 
             // label5
             // 
             label5.AutoSize = true;
-            label5.Location = new Point(20, 197);
+            label5.Location = new Point(12, 196);
             label5.Name = "label5";
-            label5.Size = new Size(140, 23);
+            label5.Size = new Size(152, 23);
             label5.TabIndex = 34;
             label5.Text = "Y desde la esquina (m)";
             // 
@@ -143,20 +142,20 @@
             // 
             nudY.BackColor = Color.FromArgb(3, 14, 32);
             nudY.BorderStyle = BorderStyle.FixedSingle;
+            nudY.DecimalPlaces = 2;
             nudY.ForeColor = Color.White;
             nudY.Location = new Point(170, 194);
+            nudY.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             nudY.Name = "nudY";
             nudY.Size = new Size(200, 30);
             nudY.TabIndex = 4;
-            nudY.DecimalPlaces = 2;
-            nudY.Maximum = new decimal(new int[] { 1000000, 0, 0, 0 });
             // 
             // chkActivo
             // 
             chkActivo.AutoSize = true;
             chkActivo.Location = new Point(170, 238);
             chkActivo.Name = "chkActivo";
-            chkActivo.Size = new Size(70, 27);
+            chkActivo.Size = new Size(67, 27);
             chkActivo.TabIndex = 5;
             chkActivo.Text = "Activo";
             chkActivo.UseVisualStyleBackColor = false;
@@ -177,8 +176,8 @@
             // 
             // btnCancelar
             // 
-            btnCancelar.CausesValidation = false;
             btnCancelar.BackColor = Color.FromArgb(13, 34, 65);
+            btnCancelar.CausesValidation = false;
             btnCancelar.FlatAppearance.BorderSize = 0;
             btnCancelar.FlatStyle = FlatStyle.Flat;
             btnCancelar.ForeColor = Color.FromArgb(254, 255, 255);
@@ -195,6 +194,7 @@
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(3, 14, 32);
+            ClientSize = new Size(400, 340);
             Controls.Add(label1);
             Controls.Add(txtId);
             Controls.Add(label2);
@@ -210,11 +210,10 @@
             Controls.Add(btnCancelar);
             Font = new Font("Bahnschrift Condensed", 14.25F);
             ForeColor = Color.FromArgb(254, 255, 255);
-            Name = "FrmSensor";
-            ClientSize = new Size(400, 340);
             FormBorderStyle = FormBorderStyle.FixedDialog;
             MaximizeBox = false;
             MinimizeBox = false;
+            Name = "FrmSensor";
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
             Text = "Sensor";

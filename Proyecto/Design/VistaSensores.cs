@@ -1,4 +1,5 @@
-﻿using Proyecto.Domain;
+﻿using Microsoft.VisualBasic;
+using Proyecto.Domain;
 using Proyecto.Exceptions;
 using Proyecto.Infraestructure;
 using Proyecto.Presentacion;
@@ -9,8 +10,6 @@ namespace Proyecto.Design
     {
         private readonly RepositorySensor _repo;
         private readonly RepositoryZona _zonas;
-
-        // Evita que los eventos de los controles reaccionen a cambios hechos por código.
         private bool _cargando;
 
         public VistaSensores()
@@ -23,18 +22,27 @@ namespace Proyecto.Design
         private void VistaSensores_Load(object sender, EventArgs e)
         {
             _cargando = true;
+
             cmbZona.DataSource = _zonas.GetAll()
                 .Select(z => new { z.Id, Texto = $"{z.Id} - {z.Nombre}{(z.Activo ? "" : " (inactiva)")}" })
                 .ToList();
+
             _cargando = false;
+
+            //ZonaVerde? primera = _zonas.GetAll().FirstOrDefault();
+            //long? id = primera == null ? null : primera.Id;
 
             Mostrar(_zonas.GetAll().FirstOrDefault()?.Id, null);
         }
 
         private void Mostrar(long? zonaId, long? sensorId)
         {
+            //ternario con un patrón
             ZonaVerde? zona = zonaId is long id ? _zonas.GetById(id) : null;
+
             List<Sensor> sensores = zona == null ? new List<Sensor>() : _repo.GetByZona(zona.Id).ToList();
+
+            //operador de fusión nula ??
             Sensor? sensor = sensores.FirstOrDefault(s => s.Id == sensorId) ?? sensores.FirstOrDefault();
 
             _cargando = true;
@@ -92,7 +100,7 @@ namespace Proyecto.Design
             }
         }
 
-        // Escribir un Id lleva a ese sensor, aunque esté en otra zona.
+        // escribir un id lleva a ese sensor, aunque este en otra zona
         private void nudId_ValueChanged(object sender, EventArgs e)
         {
             if (_cargando)
@@ -113,6 +121,8 @@ namespace Proyecto.Design
 
         private void btnAgregar_Click(object sender, EventArgs e)
         {
+            //conversión con as
+
             using FrmSensor formulario = new FrmSensor(cmbZona.SelectedValue as long?);
             formulario.ShowDialog(this);
             Refrescar(formulario.IdGuardado, "guardado");

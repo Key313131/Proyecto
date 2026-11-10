@@ -3,7 +3,6 @@ using System.Collections;
 
 namespace Proyecto.DynamicStructure
 {
-    // Un eslabón de la lista: guarda un dato y conoce a su vecino de cada lado.
     public class Node<T>
     {
         public T Data { get; set; }
@@ -16,8 +15,6 @@ namespace Proyecto.DynamicStructure
         }
     }
 
-    // Lista doblemente enlazada, basada en la del repositorio de Estructura de Datos.
-    // Reemplaza a la List<T> de .NET dentro de los repositorios.
     public class Lista<T> : IEnumerable<T>, IListOperation<T> where T : class
     {
         private Node<T>? Head { get; set; }
@@ -33,7 +30,6 @@ namespace Proyecto.DynamicStructure
             }
         }
 
-        // O(1): se engancha al final gracias a Last; no hace falta recorrer.
         public void Add(T data)
         {
             Node<T> n = new Node<T>(data);
@@ -51,7 +47,6 @@ namespace Proyecto.DynamicStructure
             Count++;
         }
 
-        // O(n): hay que caminar hasta la posición.
         public void Delete(int position)
         {
             Node<T>? n = NodoEn(position);
@@ -61,7 +56,6 @@ namespace Proyecto.DynamicStructure
             }
         }
 
-        // O(n): busca el MISMO objeto (misma referencia) y lo quita.
         public void Delete(T data)
         {
             Node<T>? temp = Head;
@@ -76,13 +70,11 @@ namespace Proyecto.DynamicStructure
             }
         }
 
-        // O(n)
         public T? ElementAt(int position)
         {
             return NodoEn(position)?.Data;
         }
 
-        // O(n)
         public void Set(int index, T data)
         {
             Node<T>? n = NodoEn(index);
@@ -92,7 +84,7 @@ namespace Proyecto.DynamicStructure
             }
         }
 
-        // O(n): devuelve el primero que cumpla la condición, o null.
+
         public T? FirstOrDefault(Predicate<T> check)
         {
             Node<T>? temp = Head;
@@ -107,7 +99,6 @@ namespace Proyecto.DynamicStructure
             return null;
         }
 
-        // O(n): devuelve la posición del primero que cumpla la condición, o -1.
         public int FindIndex(Predicate<T> check)
         {
             Node<T>? temp = Head;
@@ -124,13 +115,12 @@ namespace Proyecto.DynamicStructure
             return -1;
         }
 
-        // O(n)
+
         public bool Exists(Predicate<T> check)
         {
             return FindIndex(check) != -1;
         }
 
-        // Permite usar foreach (y LINQ) sobre la lista: recorre de Head a Last.
         public IEnumerator<T> GetEnumerator()
         {
             Node<T>? temp = Head;
@@ -146,7 +136,6 @@ namespace Proyecto.DynamicStructure
             return GetEnumerator();
         }
 
-        // Camina desde Head hasta la posición pedida. Fuera de rango devuelve null.
         private Node<T>? NodoEn(int position)
         {
             if (position < 0 || position >= Count)
@@ -162,13 +151,11 @@ namespace Proyecto.DynamicStructure
             return temp;
         }
 
-        // O(1): saca un nodo uniendo a sus dos vecinos entre sí.
-        // Cubre los cuatro casos: único, primero, último y del medio.
         private void Desenlazar(Node<T> n)
         {
             if (n.Back == null)
             {
-                Head = n.Next;       // era el primero
+                Head = n.Next;       
             }
             else
             {
@@ -177,7 +164,7 @@ namespace Proyecto.DynamicStructure
 
             if (n.Next == null)
             {
-                Last = n.Back;       // era el último
+                Last = n.Back;       
             }
             else
             {

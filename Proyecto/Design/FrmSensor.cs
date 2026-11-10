@@ -5,17 +5,14 @@ using Proyecto.Presentacion;
 
 namespace Proyecto.Design
 {
-    // Formulario emergente: sirve para agregar y para actualizar un sensor.
+
     public partial class FrmSensor : Form
     {
         private readonly RepositorySensor _repo;
         private readonly RepositoryZona _zonas;
         private readonly Sensor _datos;
-
-        // null significa que se está creando un sensor nuevo.
         private long? _idActual;
 
-        // La vista lo lee al cerrar: si sigue en null, no se guardó nada.
         public long? IdGuardado { get; private set; }
 
         public FrmSensor()
@@ -44,7 +41,6 @@ namespace Proyecto.Design
         {
             cmbTipo.DataSource = Enum.GetValues<TipoSensor>();
 
-            // Solo zonas activas, más la zona que el sensor ya tiene.
             cmbZona.DataSource = _zonas.GetAll()
                 .Where(z => z.Activo || (_idActual != null && z.Id == _datos.ZonaId))
                 .ToList();
@@ -87,8 +83,6 @@ namespace Proyecto.Design
                     _repo.Update(sensor);
                 }
 
-                // Antes de Commit: si escribir el archivo falla, el sensor ya está en la
-                // lista y volver a pulsar Guardar no debe crearlo por segunda vez.
                 _idActual = id;
                 IdGuardado = id;
 

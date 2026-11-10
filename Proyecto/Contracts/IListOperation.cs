@@ -1,7 +1,5 @@
 namespace Proyecto.Contracts
 {
-    // Operaciones básicas que debe ofrecer cualquier lista del proyecto.
-    // Es la misma interfaz que hicimos en Estructura de Datos.
     internal interface IListOperation<T>
     {
         void Add(T data);
