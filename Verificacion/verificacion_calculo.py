@@ -5,6 +5,7 @@ Calcula el MISMO ejemplo que la prueba del programa en C#, pero con otros métod
   - W(T, H, A, S): misma fórmula, escrita de nuevo
   - caudal del tubo: integral doble con scipy.integrate.dblquad (o malla fina con numpy)
   - reparto de Lagrange: scipy.optimize.minimize (SLSQP) y bisección sobre λ
+  - consumo real ∫ Q dt: numpy.trapezoid
 
 Uso:
     pip install numpy scipy
@@ -101,8 +102,33 @@ else:
 orden = sorted(range(len(ZONAS)), key=lambda i: ZONAS[i][6] - ZONAS[i][4])
 minutos = {ZONAS[i][0]: float(x_biseccion[i] / caudal_l_min) for i in orden}
 
+# ---------------- 5. Consumo real: V = ∫ Q dt con la regla del trapecio ----------------
+# Un medidor que lee cada 10 min: riega a 12 L/min entre los minutos 30 y 90, se apaga,
+# y luego hay un hueco de 60 min sin lecturas (simulador apagado) que no se cuenta.
+SERIE = [(0, 0), (10, 0), (20, 0), (30, 12), (40, 12), (50, 12), (60, 12), (70, 12), (80, 12), (90, 12),
+         (100, 0), (110, 0), (170, 8), (180, 8), (190, 0)]
+HUECO_MAX = 20     # min
+tramos = []        # pedazos de la serie sin huecos
+actual = [SERIE[0]]
+for anterior, punto in zip(SERIE, SERIE[1:]):
+    if punto[0] - anterior[0] > HUECO_MAX:
+        tramos.append(actual)
+        actual = [punto]
+    else:
+        actual.append(punto)
+tramos.append(actual)
+consumo = sum(float(np.trapezoid([q for _, q in t], [m for m, _ in t])) for t in tramos if len(t) > 1)
+AREA_MEDIDA, LAMINA = 200.0, 5.0
+dias = (SERIE[-1][0] - SERIE[0][0]) / (24 * 60)
+tradicional = LAMINA * AREA_MEDIDA * dias
+ahorro = (tradicional - consumo) / tradicional * 100
+
 resultados = {
     "scipy": HAY_SCIPY,
+    "consumo_serie": SERIE,
+    "consumo_L": consumo,
+    "tradicional_L": tradicional,
+    "ahorro_pct": ahorro,
     "et0": et0(T, S),
     "W": W.tolist(),
     "M": M.tolist(),
@@ -128,6 +154,7 @@ print(f"Lagrange: λ = {lam:.6f}")
 print("   bisección:", np.round(x_biseccion, 3), " suma", round(float(x_biseccion.sum()), 3))
 print("   scipy    :", np.round(x_scipy, 3), " suma", round(float(np.sum(x_scipy)), 3))
 print("Horario:", ", ".join(f"{n} {m:.1f} min" for n, m in minutos.items()))
+print(f"Consumo ∫Q dt (trapecio, sin el hueco) = {consumo:.2f} L   tradicional = {tradicional:.2f} L   ahorro = {ahorro:.2f} %")
 
 ruta = os.path.join(os.path.dirname(os.path.abspath(__file__)), "resultados_python.json")
 with open(ruta, "w", encoding="utf-8") as archivo:

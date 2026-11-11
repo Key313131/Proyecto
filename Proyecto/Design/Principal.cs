@@ -58,6 +58,7 @@ namespace Proyecto.Design
             btnSimulador.BackColor = Tema.Tarjeta;
             btnConsultas.BackColor = Tema.Tarjeta;
             btnCalculo.BackColor = Tema.Tarjeta;
+            btnTablero.BackColor = Tema.Tarjeta;
             activo.BackColor = Tema.Azul;
         }
 
@@ -84,6 +85,11 @@ namespace Proyecto.Design
         private void btnCalculo_Click(object sender, EventArgs e)
         {
             Mostrar(() => new VistaCalculo(), btnCalculo);
+        }
+
+        private void btnTablero_Click(object sender, EventArgs e)
+        {
+            Mostrar(() => new VistaTablero(), btnTablero);
         }
 
         private void btnSalir_Click(object sender, EventArgs e)

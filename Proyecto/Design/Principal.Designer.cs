@@ -30,6 +30,7 @@
         {
             splitContainer1 = new SplitContainer();
             btnSalir = new Button();
+            btnTablero = new Button();
             btnCalculo = new Button();
             btnConsultas = new Button();
             btnSimulador = new Button();
@@ -58,6 +59,7 @@
             // 
             splitContainer1.Panel1.BackColor = Color.FromArgb(13, 34, 65);
             splitContainer1.Panel1.Controls.Add(btnSalir);
+            splitContainer1.Panel1.Controls.Add(btnTablero);
             splitContainer1.Panel1.Controls.Add(btnCalculo);
             splitContainer1.Panel1.Controls.Add(btnConsultas);
             splitContainer1.Panel1.Controls.Add(btnSimulador);
@@ -94,6 +96,25 @@
             btnSalir.TextAlign = ContentAlignment.MiddleLeft;
             btnSalir.UseVisualStyleBackColor = false;
             btnSalir.Click += btnSalir_Click;
+            // 
+            // btnTablero
+            // 
+            btnTablero.BackColor = Color.FromArgb(13, 34, 65);
+            btnTablero.Dock = DockStyle.Top;
+            btnTablero.FlatAppearance.BorderSize = 0;
+            btnTablero.FlatAppearance.MouseOverBackColor = Color.FromArgb(62, 102, 187);
+            btnTablero.FlatStyle = FlatStyle.Flat;
+            btnTablero.Font = new Font("Bahnschrift Condensed", 15.75F);
+            btnTablero.ForeColor = Color.FromArgb(254, 255, 255);
+            btnTablero.Location = new Point(0, 450);
+            btnTablero.Name = "btnTablero";
+            btnTablero.Padding = new Padding(22, 0, 0, 0);
+            btnTablero.Size = new Size(230, 54);
+            btnTablero.TabIndex = 8;
+            btnTablero.Text = "Dashboard";
+            btnTablero.TextAlign = ContentAlignment.MiddleLeft;
+            btnTablero.UseVisualStyleBackColor = false;
+            btnTablero.Click += btnTablero_Click;
             // 
             // btnCalculo
             // 
@@ -263,6 +284,7 @@
         private Button btnSimulador;
         private Button btnConsultas;
         private Button btnCalculo;
+        private Button btnTablero;
         private Button btnZonas;
         private Label lblMarca;
         private PictureBox Logo;

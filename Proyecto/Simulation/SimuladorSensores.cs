@@ -1,4 +1,5 @@
-﻿using Proyecto.Domain;
+﻿using Proyecto.Calculo;
+using Proyecto.Domain;
 using Proyecto.DynamicStructure;
 using Proyecto.Exceptions;
 using Proyecto.Infraestructure;
@@ -35,6 +36,13 @@ namespace Proyecto.Simulation
         // Cuánto tiempo simulado avanza cada paso.
         public static readonly TimeSpan PasoSimulado = TimeSpan.FromMinutes(10);
         public const int PasosPorGuardado = 5;
+
+        // Horas de luz que se suponen para calcular la evaporación (cerca del ecuador).
+        public const double HorasLuz = 12;
+
+        // Probabilidad de que empiece a llover en un paso de 10 min. Con 0,3 % llueve unas
+        // 3 veces por semana, entre 30 min y 2 h cada vez.
+        public const double ProbabilidadLluvia = 0.003;
 
         private readonly Random _azar = new Random();
         private readonly Cola<Lectura> _pendientes = new Cola<Lectura>();
@@ -258,10 +266,10 @@ namespace Proyecto.Simulation
             return 22 + 8 * Math.Sin(2 * Math.PI * (h - 9) / 24);
         }
 
-        // Cada paso hay 3 % de probabilidad de que empiece a llover, entre 30 min y 2 h.
+        // Cada paso puede empezar a llover (ProbabilidadLluvia); dura entre 30 min y 2 h.
         private double Llover()
         {
-            if (_pasosDeLluviaRestantes == 0 && _azar.NextDouble() < 0.03)
+            if (_pasosDeLluviaRestantes == 0 && _azar.NextDouble() < ProbabilidadLluvia)
             {
                 _pasosDeLluviaRestantes = _azar.Next(3, 13);
                 _intensidadLluvia = 0.2 + _azar.NextDouble() * 1.8;
@@ -281,33 +289,41 @@ namespace Proyecto.Simulation
             return _intensidadLluvia;
         }
 
-        // El estado se crea la primera vez que se ve la zona, con humedad algo por encima del mínimo.
+        // El estado se crea la primera vez que se ve la zona, con humedad un poco por encima del mínimo.
         private EstadoZona EstadoDe(ZonaVerde zona)
         {
             EstadoZona? estado = _estados.FirstOrDefault(e => e.ZonaId == zona.Id);
             if (estado == null)
             {
-                double inicial = Math.Min(100, zona.HumedadMinima + 10 + _azar.NextDouble() * 20);
+                double inicial = Math.Min(100, zona.HumedadMinima + 3 + _azar.NextDouble() * 10);
                 estado = new EstadoZona(zona.Id, inicial);
                 _estados.Add(estado);
             }
             return estado;
         }
 
-        // Pierde agua por calor (más si Kc es alto) y gana con la lluvia o el riego.
-        // Si baja del mínimo y no llueve, empieza a regar; para al pasar el mínimo + 15 %.
+        // Usa el MISMO modelo físico que el plan de riego (ModeloAgua), en mm de agua:
+        //   - pierde Kc · ET₀(T) / 144 mm en cada paso de 10 min (144 pasos = 1 día),
+        //   - gana los mm de lluvia del paso,
+        //   - si riega, gana caudal × 10 min / área (litros por m² = mm).
+        // Para pasar de mm a % de humedad se divide por lo que cabe en el suelo de la raíz:
+        //   1 % de humedad = Pr · 1000 · θ / 100 mm.
+        // Si baja del mínimo y no llueve, empieza a regar; para al llegar al mínimo + 15 %.
         private void ActualizarHumedad(ZonaVerde zona, EstadoZona estado, double temperatura, double lluvia)
         {
-            double perdida = zona.Kc * Math.Max(0.05, 0.03 * (temperatura - 12));
-            double ganancia = lluvia * 1.5 + (estado.Regando ? 2.0 : 0);
-            estado.Humedad = Math.Clamp(estado.Humedad - perdida + ganancia, 0, 100);
+            double mmPorPorcentaje = zona.ProfundidadRaizM * 1000 * ModeloAgua.Porosidad / 100;
+            double pasosPorDia = TimeSpan.FromDays(1) / PasoSimulado;
+
+            double perdida = zona.Kc * ModeloAgua.Et0(temperatura, HorasLuz) / pasosPorDia;
+            double riego = estado.Regando ? CaudalRiego(zona) * PasoSimulado.TotalMinutes / zona.AreaM2 : 0;
+            estado.Humedad = Math.Clamp(estado.Humedad + (lluvia + riego - perdida) / mmPorPorcentaje, 0, 100);
 
             if (!estado.Regando && estado.Humedad < zona.HumedadMinima && lluvia == 0)
             {
                 estado.Regando = true;
                 Avisar($"{Reloj:HH:mm} {zona.Nombre}: humedad {estado.Humedad:0.#} % < {zona.HumedadMinima} %, inicia riego");
             }
-            else if (estado.Regando && estado.Humedad >= Math.Min(100, zona.HumedadMinima + 15))
+            else if (estado.Regando && estado.Humedad >= ModeloAgua.HumedadObjetivo(zona))
             {
                 estado.Regando = false;
                 Avisar($"{Reloj:HH:mm} {zona.Nombre}: termina riego");
