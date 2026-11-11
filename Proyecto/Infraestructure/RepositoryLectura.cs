@@ -44,6 +44,20 @@ namespace Proyecto.Infraestructure
             return ultima;
         }
 
+        // La lectura más reciente de un sensor, o null si no tiene. O(n).
+        public Lectura? UltimaDe(long sensorId)
+        {
+            Lectura? ultima = null;
+            foreach (Lectura lectura in GetAll())
+            {
+                if (lectura.SensorId == sensorId && (ultima == null || lectura.FechaHora > ultima.FechaHora))
+                {
+                    ultima = lectura;
+                }
+            }
+            return ultima;
+        }
+
         public override void Add(Lectura entity)
         {
             ValidarSensor(entity);

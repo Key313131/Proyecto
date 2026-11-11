@@ -30,6 +30,7 @@
         {
             splitContainer1 = new SplitContainer();
             btnSalir = new Button();
+            btnCalculo = new Button();
             btnConsultas = new Button();
             btnSimulador = new Button();
             btnSensores = new Button();
@@ -57,6 +58,7 @@
             // 
             splitContainer1.Panel1.BackColor = Color.FromArgb(13, 34, 65);
             splitContainer1.Panel1.Controls.Add(btnSalir);
+            splitContainer1.Panel1.Controls.Add(btnCalculo);
             splitContainer1.Panel1.Controls.Add(btnConsultas);
             splitContainer1.Panel1.Controls.Add(btnSimulador);
             splitContainer1.Panel1.Controls.Add(btnSensores);
@@ -92,6 +94,25 @@
             btnSalir.TextAlign = ContentAlignment.MiddleLeft;
             btnSalir.UseVisualStyleBackColor = false;
             btnSalir.Click += btnSalir_Click;
+            // 
+            // btnCalculo
+            // 
+            btnCalculo.BackColor = Color.FromArgb(13, 34, 65);
+            btnCalculo.Dock = DockStyle.Top;
+            btnCalculo.FlatAppearance.BorderSize = 0;
+            btnCalculo.FlatAppearance.MouseOverBackColor = Color.FromArgb(62, 102, 187);
+            btnCalculo.FlatStyle = FlatStyle.Flat;
+            btnCalculo.Font = new Font("Bahnschrift Condensed", 15.75F);
+            btnCalculo.ForeColor = Color.FromArgb(254, 255, 255);
+            btnCalculo.Location = new Point(0, 396);
+            btnCalculo.Name = "btnCalculo";
+            btnCalculo.Padding = new Padding(22, 0, 0, 0);
+            btnCalculo.Size = new Size(230, 54);
+            btnCalculo.TabIndex = 7;
+            btnCalculo.Text = "Cálculo";
+            btnCalculo.TextAlign = ContentAlignment.MiddleLeft;
+            btnCalculo.UseVisualStyleBackColor = false;
+            btnCalculo.Click += btnCalculo_Click;
             // 
             // btnConsultas
             // 
@@ -241,6 +262,7 @@
         private Button btnSensores;
         private Button btnSimulador;
         private Button btnConsultas;
+        private Button btnCalculo;
         private Button btnZonas;
         private Label lblMarca;
         private PictureBox Logo;
