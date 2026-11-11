@@ -1,4 +1,5 @@
 ﻿using Proyecto.Exceptions;
+using Proyecto.Simulation;
 using Proyecto.Tools;
 
 namespace Proyecto.Design
@@ -9,6 +10,9 @@ namespace Proyecto.Design
         {
             InitializeComponent();
             lblDatos.Text = $"Datos en: {Configuration.Carpeta}";
+
+            // Al cerrar, se detiene el simulador para que guarde lo que tenga en la cola.
+            FormClosing += (s, a) => SimuladorSensores.GetInstance().Detener();
         }
 
         private void Principal_Load(object sender, EventArgs e)
@@ -51,6 +55,7 @@ namespace Proyecto.Design
         {
             btnZonas.BackColor = Tema.Tarjeta;
             btnSensores.BackColor = Tema.Tarjeta;
+            btnSimulador.BackColor = Tema.Tarjeta;
             activo.BackColor = Tema.Azul;
         }
 
@@ -62,6 +67,11 @@ namespace Proyecto.Design
         private void btnSensores_Click(object sender, EventArgs e)
         {
             Mostrar(() => new VistaSensores(), btnSensores);
+        }
+
+        private void btnSimulador_Click(object sender, EventArgs e)
+        {
+            Mostrar(() => new VistaSimulador(), btnSimulador);
         }
 
         private void btnSalir_Click(object sender, EventArgs e)
