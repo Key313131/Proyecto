@@ -1,4 +1,4 @@
-﻿using Proyecto.Infraestructure;
+﻿using Proyecto.Servicios;
 
 namespace Proyecto.Design
 {
@@ -20,7 +20,7 @@ namespace Proyecto.Design
             dgvZonas.Columns.Add(Tema.Columna("HumedadMinima", "Hum. mín (%)", 105));
             dgvZonas.Columns.Add(Tema.ColumnaActivo());
 
-            dgvZonas.DataSource = RepositoryZona.GetInstance().GetAll().ToList();
+            dgvZonas.DataSource = new ServicioZonas().Todas().ToList();
         }
     }
 }

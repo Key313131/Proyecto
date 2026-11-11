@@ -5,8 +5,8 @@
     // Simpson en 1D: se parte [a, b] en n tramos (n par) de ancho h y
     //   ∫ f ≈ h/3 · [f₀ + 4f₁ + 2f₂ + 4f₃ + ... + 4fₙ₋₁ + fₙ]
     // Es exacta para polinomios de grado 3 o menos, y el error baja como h⁴.
-    // En 2D y 3D se aplica lo mismo en cada dirección: el peso de un punto es el
-    // producto de los pesos de cada coordenada.
+    // En 2D se aplica lo mismo en cada dirección: el peso de un punto es el producto
+    // de los pesos de cada coordenada.
     internal static class Integrales
     {
         // ∬_R f(x, y) dA  sobre el rectángulo R = [a, b] × [c, d]
@@ -27,47 +27,6 @@
                 }
             }
             return suma * hx * hy / 9;
-        }
-
-        // ∭_V f(x, y, z) dV  sobre la caja V = [a, b] × [c, d] × [e, g]
-        public static double Triple(Func<double, double, double, double> f,
-            double a, double b, double c, double d, double e, double g, int n = 20)
-        {
-            n = Par(n);
-            double hx = (b - a) / n;
-            double hy = (d - c) / n;
-            double hz = (g - e) / n;
-            double suma = 0;
-
-            for (int i = 0; i <= n; i++)
-            {
-                for (int j = 0; j <= n; j++)
-                {
-                    for (int k = 0; k <= n; k++)
-                    {
-                        double peso = Peso(i, n) * Peso(j, n) * Peso(k, n);
-                        suma += peso * f(a + i * hx, c + j * hy, e + k * hz);
-                    }
-                }
-            }
-            return suma * hx * hy * hz / 27;
-        }
-
-        // Área de un polígono con el TEOREMA DE GREEN:
-        //   A = ∬_R 1 dA = ½ ∮_C (x dy − y dx)
-        // En un polígono, la integral de línea sobre cada lado da la fórmula "del zapato":
-        //   A = ½ |Σ (xᵢ · yᵢ₊₁ − xᵢ₊₁ · yᵢ)|
-        // Sirve para zonas irregulares: solo hacen falta las esquinas, en orden.
-        public static double AreaGreen(IReadOnlyList<(double x, double y)> vertices)
-        {
-            double suma = 0;
-            for (int i = 0; i < vertices.Count; i++)
-            {
-                (double x1, double y1) = vertices[i];
-                (double x2, double y2) = vertices[(i + 1) % vertices.Count];   // el último se une al primero
-                suma += x1 * y2 - x2 * y1;
-            }
-            return Math.Abs(suma) / 2;
         }
 
         // FLUJO del agua por la sección circular de un tubo (integral de superficie).

@@ -1,14 +1,14 @@
 ﻿using Proyecto.Domain;
 using Proyecto.Exceptions;
-using Proyecto.Infraestructure;
 using Proyecto.Presentacion;
+using Proyecto.Servicios;
 using System.ComponentModel;
 
 namespace Proyecto.Design
 {
     public partial class FrmZona : Form
     {
-        private readonly RepositoryZona _repo;
+        private readonly ServicioZonas _zonas;
         private readonly ZonaVerde _datos;
 
         private long? _idActual;
@@ -18,7 +18,7 @@ namespace Proyecto.Design
         public FrmZona()
         {
             InitializeComponent();
-            _repo = RepositoryZona.GetInstance();
+            _zonas = new ServicioZonas();
             _datos = ZonaVerde.Create();
         }
 
@@ -33,7 +33,7 @@ namespace Proyecto.Design
             cmbVegetacion.DataSource = Enum.GetValues<TipoVegetacion>();
 
             Text = _idActual == null ? "Agregar zona verde" : "Actualizar zona verde";
-            txtId.Text = (_idActual ?? _repo.SiguienteId()).ToString();
+            txtId.Text = (_idActual ?? _zonas.SiguienteId()).ToString();
             txtNombre.Text = _idActual == null ? "" : _datos.Nombre;
             cmbVegetacion.SelectedItem = _datos.Vegetacion;
             UiHelper.Poner(nudAncho, _datos.AnchoM);
@@ -50,7 +50,7 @@ namespace Proyecto.Design
         {
             try
             {
-                long id = _idActual ?? _repo.SiguienteId();
+                long id = _idActual ?? _zonas.SiguienteId();
 
                 ZonaVerde zona = ZonaVerde.Create(
                     id,
@@ -65,19 +65,12 @@ namespace Proyecto.Design
                     (double)nudRaiz.Value,
                     chkActivo.Checked);
 
-                if (_idActual == null)
-                {
-                    _repo.Add(zona);
-                }
-                else
-                {
-                    _repo.Update(zona);
-                }
-
+                // Se recuerda el Id antes de guardar: si el archivo falla y se reintenta,
+                // se sigue usando el mismo Id (el servicio lo actualiza en vez de crearlo otra vez).
                 _idActual = id;
                 IdGuardado = id;
 
-                _repo.Commit();
+                _zonas.Guardar(zona);
                 DialogResult = DialogResult.OK;
             }
             catch (DomainExceptions ex)

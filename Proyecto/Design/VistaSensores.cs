@@ -1,46 +1,42 @@
-﻿using Microsoft.VisualBasic;
-using Proyecto.Domain;
+﻿using Proyecto.Domain;
 using Proyecto.Exceptions;
-using Proyecto.Infraestructure;
 using Proyecto.Presentacion;
+using Proyecto.Servicios;
 
 namespace Proyecto.Design
 {
     public partial class VistaSensores : UserControl
     {
-        private readonly RepositorySensor _repo;
-        private readonly RepositoryZona _zonas;
+        private readonly ServicioSensores _sensores;
+        private readonly ServicioZonas _zonas;
         private bool _cargando;
 
         public VistaSensores()
         {
             InitializeComponent();
-            _repo = RepositorySensor.GetInstance();
-            _zonas = RepositoryZona.GetInstance();
+            _sensores = new ServicioSensores();
+            _zonas = new ServicioZonas();
         }
 
         private void VistaSensores_Load(object sender, EventArgs e)
         {
             _cargando = true;
 
-            cmbZona.DataSource = _zonas.GetAll()
+            cmbZona.DataSource = _zonas.Todas()
                 .Select(z => new { z.Id, Texto = $"{z.Id} - {z.Nombre}{(z.Activo ? "" : " (inactiva)")}" })
                 .ToList();
 
             _cargando = false;
 
-            //ZonaVerde? primera = _zonas.GetAll().FirstOrDefault();
-            //long? id = primera == null ? null : primera.Id;
-
-            Mostrar(_zonas.GetAll().FirstOrDefault()?.Id, null);
+            Mostrar(_zonas.Todas().FirstOrDefault()?.Id, null);
         }
 
         private void Mostrar(long? zonaId, long? sensorId)
         {
             //ternario con un patrón
-            ZonaVerde? zona = zonaId is long id ? _zonas.GetById(id) : null;
+            ZonaVerde? zona = zonaId is long id ? _zonas.Buscar(id) : null;
 
-            List<Sensor> sensores = zona == null ? new List<Sensor>() : _repo.GetByZona(zona.Id).ToList();
+            List<Sensor> sensores = zona == null ? new List<Sensor>() : _sensores.DeZona(zona.Id).ToList();
 
             //operador de fusión nula ??
             Sensor? sensor = sensores.FirstOrDefault(s => s.Id == sensorId) ?? sensores.FirstOrDefault();
@@ -77,7 +73,7 @@ namespace Proyecto.Design
 
         private void ActualizarBotones(Sensor? sensor)
         {
-            bool hayZonas = _zonas.GetAll().Any(z => z.Activo);
+            bool hayZonas = _zonas.HayActivas();
             btnAgregar.Enabled = hayZonas;
             btnActualizar.Enabled = sensor != null;
             btnDesactivar.Enabled = sensor != null && sensor.Activo;
@@ -109,7 +105,7 @@ namespace Proyecto.Design
             }
 
             long id = (long)nudId.Value;
-            Sensor? sensor = _repo.GetById(id);
+            Sensor? sensor = _sensores.Buscar(id);
             if (sensor == null)
             {
                 ActualizarBotones(null);
@@ -130,7 +126,7 @@ namespace Proyecto.Design
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            Sensor? sensor = _repo.GetById((long)nudId.Value);
+            Sensor? sensor = _sensores.Buscar((long)nudId.Value);
             if (sensor == null)
             {
                 return;
@@ -145,14 +141,14 @@ namespace Proyecto.Design
         {
             if (id is long guardado)
             {
-                Mostrar(_repo.GetById(guardado)?.ZonaId, guardado);
+                Mostrar(_sensores.Buscar(guardado)?.ZonaId, guardado);
                 lblEstado.Text = $"Sensor {guardado} {accion}";
             }
         }
 
         private void btnDesactivar_Click(object sender, EventArgs e)
         {
-            Sensor? sensor = _repo.GetById((long)nudId.Value);
+            Sensor? sensor = _sensores.Buscar((long)nudId.Value);
             if (sensor == null)
             {
                 return;
@@ -169,10 +165,8 @@ namespace Proyecto.Design
 
             try
             {
-                _repo.Update(sensor.ConEstado(false));
+                _sensores.Desactivar(sensor.Id);
                 Mostrar(sensor.ZonaId, sensor.Id);
-
-                _repo.Commit();
                 lblEstado.Text = $"Sensor {sensor.Id} desactivado";
             }
             catch (DomainExceptions ex)
@@ -181,6 +175,7 @@ namespace Proyecto.Design
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
+                Mostrar(sensor.ZonaId, sensor.Id);
                 lblEstado.Text = "Cambios sin guardar en el archivo";
                 UiHelper.Error($"No se pudo escribir el archivo. ¿Está abierto en Excel?\n\n{ex.Message}");
             }

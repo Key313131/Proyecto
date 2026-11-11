@@ -28,72 +28,60 @@
         /// </summary>
         private void InitializeComponent()
         {
-            lblZona = new Label();
-            cmbZona = new ComboBox();
+            dgvPlan = new DataGridView();
+            lblResumen = new Label();
             lblTemp = new Label();
             nudTemp = new NumericUpDown();
-            lblHum = new Label();
-            nudHum = new NumericUpDown();
             lblSol = new Label();
             nudSol = new NumericUpDown();
-            btnTomar = new Button();
-            btnCalcular = new Button();
+            lblInicio = new Label();
+            dtpInicio = new DateTimePicker();
+            lblHoras = new Label();
+            nudHoras = new NumericUpDown();
             lblPresupuesto = new Label();
             nudPresupuesto = new NumericUpDown();
             lblTarifa = new Label();
             nudTarifa = new NumericUpDown();
-            btnRepartir = new Button();
-            lienzo = new LienzoCampo();
-            lstZona = new ListBox();
-            panelZona = new Panel();
-            dgvReparto = new DataGridView();
-            lstReparto = new ListBox();
-            panelReparto = new Panel();
+            btnCalcular = new Button();
+            btnDetalle = new Button();
             panelDatos = new Panel();
             lblEstado = new Label();
             lblTitulo = new Label();
-            panelZona.SuspendLayout();
-            panelReparto.SuspendLayout();
-            panelDatos.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)dgvPlan).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudTemp).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)nudHum).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudSol).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)nudHoras).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudPresupuesto).BeginInit();
             ((System.ComponentModel.ISupportInitialize)nudTarifa).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)dgvReparto).BeginInit();
+            panelDatos.SuspendLayout();
             SuspendLayout();
             //
-            // lblZona
+            // dgvPlan
             //
-            lblZona.AutoSize = true;
-            lblZona.Location = new Point(16, 10);
-            lblZona.Name = "lblZona";
-            lblZona.Size = new Size(150, 23);
-            lblZona.TabIndex = 0;
-            lblZona.Text = "Zona";
+            dgvPlan.Dock = DockStyle.Fill;
+            dgvPlan.Name = "dgvPlan";
+            dgvPlan.Size = new Size(767, 400);
+            dgvPlan.TabIndex = 0;
             //
-            // cmbZona
+            // lblResumen
             //
-            cmbZona.BackColor = Color.FromArgb(3, 14, 32);
-            cmbZona.DisplayMember = "Texto";
-            cmbZona.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbZona.FlatStyle = FlatStyle.Flat;
-            cmbZona.ForeColor = Color.White;
-            cmbZona.Location = new Point(16, 36);
-            cmbZona.Name = "cmbZona";
-            cmbZona.Size = new Size(218, 31);
-            cmbZona.TabIndex = 1;
-            cmbZona.ValueMember = "Id";
-            cmbZona.SelectedIndexChanged += cmbZona_SelectedIndexChanged;
+            lblResumen.BackColor = Color.FromArgb(13, 34, 65);
+            lblResumen.Dock = DockStyle.Bottom;
+            lblResumen.ForeColor = Color.FromArgb(254, 255, 255);
+            lblResumen.Name = "lblResumen";
+            lblResumen.Padding = new Padding(10, 8, 10, 8);
+            lblResumen.Size = new Size(767, 110);
+            lblResumen.TabIndex = 1;
+            lblResumen.Text = "";
             //
             // lblTemp
             //
             lblTemp.AutoSize = true;
-            lblTemp.Location = new Point(16, 78);
+            lblTemp.Location = new Point(16, 10);
             lblTemp.Name = "lblTemp";
-            lblTemp.Size = new Size(150, 23);
-            lblTemp.TabIndex = 2;
-            lblTemp.Text = "Temperatura (°C)";
+            lblTemp.Size = new Size(200, 23);
+            lblTemp.TabIndex = 0;
+            lblTemp.Text = "Temperatura prevista (°C)";
             //
             // nudTemp
             //
@@ -101,44 +89,21 @@
             nudTemp.BorderStyle = BorderStyle.FixedSingle;
             nudTemp.ForeColor = Color.White;
             nudTemp.DecimalPlaces = 1;
-            nudTemp.Location = new Point(16, 104);
+            nudTemp.Location = new Point(16, 36);
             nudTemp.Maximum = new decimal(new int[] { 50, 0, 0, 0 });
             nudTemp.Minimum = new decimal(new int[] { 10, 0, 0, -2147483648 });
             nudTemp.Name = "nudTemp";
             nudTemp.Size = new Size(218, 30);
-            nudTemp.TabIndex = 3;
+            nudTemp.TabIndex = 1;
             nudTemp.Value = new decimal(new int[] { 22, 0, 0, 0 });
-            //
-            // lblHum
-            //
-            lblHum.AutoSize = true;
-            lblHum.Location = new Point(16, 146);
-            lblHum.Name = "lblHum";
-            lblHum.Size = new Size(150, 23);
-            lblHum.TabIndex = 4;
-            lblHum.Text = "Humedad del suelo (%)";
-            //
-            // nudHum
-            //
-            nudHum.BackColor = Color.FromArgb(3, 14, 32);
-            nudHum.BorderStyle = BorderStyle.FixedSingle;
-            nudHum.ForeColor = Color.White;
-            nudHum.DecimalPlaces = 1;
-            nudHum.Location = new Point(16, 172);
-            nudHum.Maximum = new decimal(new int[] { 100, 0, 0, 0 });
-            nudHum.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
-            nudHum.Name = "nudHum";
-            nudHum.Size = new Size(218, 30);
-            nudHum.TabIndex = 5;
-            nudHum.Value = new decimal(new int[] { 40, 0, 0, 0 });
             //
             // lblSol
             //
             lblSol.AutoSize = true;
-            lblSol.Location = new Point(16, 214);
+            lblSol.Location = new Point(16, 78);
             lblSol.Name = "lblSol";
             lblSol.Size = new Size(150, 23);
-            lblSol.TabIndex = 6;
+            lblSol.TabIndex = 2;
             lblSol.Text = "Horas de luz del día";
             //
             // nudSol
@@ -147,49 +112,63 @@
             nudSol.BorderStyle = BorderStyle.FixedSingle;
             nudSol.ForeColor = Color.White;
             nudSol.DecimalPlaces = 1;
-            nudSol.Location = new Point(16, 240);
+            nudSol.Location = new Point(16, 104);
             nudSol.Maximum = new decimal(new int[] { 24, 0, 0, 0 });
             nudSol.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             nudSol.Name = "nudSol";
             nudSol.Size = new Size(218, 30);
-            nudSol.TabIndex = 7;
+            nudSol.TabIndex = 3;
             nudSol.Value = new decimal(new int[] { 12, 0, 0, 0 });
             //
-            // btnTomar
+            // lblInicio
             //
-            btnTomar.BackColor = Color.FromArgb(38, 62, 100);
-            btnTomar.FlatAppearance.BorderSize = 0;
-            btnTomar.FlatStyle = FlatStyle.Flat;
-            btnTomar.ForeColor = Color.FromArgb(254, 255, 255);
-            btnTomar.Location = new Point(16, 282);
-            btnTomar.Name = "btnTomar";
-            btnTomar.Size = new Size(218, 36);
-            btnTomar.TabIndex = 8;
-            btnTomar.Text = "Usar últimas lecturas";
-            btnTomar.UseVisualStyleBackColor = false;
-            btnTomar.Click += btnTomar_Click;
+            lblInicio.AutoSize = true;
+            lblInicio.Location = new Point(16, 146);
+            lblInicio.Name = "lblInicio";
+            lblInicio.Size = new Size(200, 23);
+            lblInicio.TabIndex = 4;
+            lblInicio.Text = "Hora de inicio del riego";
             //
-            // btnCalcular
+            // dtpInicio
             //
-            btnCalcular.BackColor = Color.FromArgb(8, 86, 188);
-            btnCalcular.FlatAppearance.BorderSize = 0;
-            btnCalcular.FlatStyle = FlatStyle.Flat;
-            btnCalcular.ForeColor = Color.FromArgb(254, 255, 255);
-            btnCalcular.Location = new Point(16, 326);
-            btnCalcular.Name = "btnCalcular";
-            btnCalcular.Size = new Size(218, 40);
-            btnCalcular.TabIndex = 9;
-            btnCalcular.Text = "Calcular zona";
-            btnCalcular.UseVisualStyleBackColor = false;
-            btnCalcular.Click += btnCalcular_Click;
+            dtpInicio.CustomFormat = "HH:mm";
+            dtpInicio.Format = DateTimePickerFormat.Custom;
+            dtpInicio.Location = new Point(16, 172);
+            dtpInicio.Name = "dtpInicio";
+            dtpInicio.ShowUpDown = true;
+            dtpInicio.Size = new Size(218, 30);
+            dtpInicio.TabIndex = 5;
+            //
+            // lblHoras
+            //
+            lblHoras.AutoSize = true;
+            lblHoras.Location = new Point(16, 214);
+            lblHoras.Name = "lblHoras";
+            lblHoras.Size = new Size(210, 23);
+            lblHoras.TabIndex = 6;
+            lblHoras.Text = "Horas disponibles para regar";
+            //
+            // nudHoras
+            //
+            nudHoras.BackColor = Color.FromArgb(3, 14, 32);
+            nudHoras.BorderStyle = BorderStyle.FixedSingle;
+            nudHoras.ForeColor = Color.White;
+            nudHoras.DecimalPlaces = 1;
+            nudHoras.Location = new Point(16, 240);
+            nudHoras.Maximum = new decimal(new int[] { 24, 0, 0, 0 });
+            nudHoras.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
+            nudHoras.Name = "nudHoras";
+            nudHoras.Size = new Size(218, 30);
+            nudHoras.TabIndex = 7;
+            nudHoras.Value = new decimal(new int[] { 3, 0, 0, 0 });
             //
             // lblPresupuesto
             //
             lblPresupuesto.AutoSize = true;
-            lblPresupuesto.Location = new Point(16, 392);
+            lblPresupuesto.Location = new Point(16, 282);
             lblPresupuesto.Name = "lblPresupuesto";
-            lblPresupuesto.Size = new Size(150, 23);
-            lblPresupuesto.TabIndex = 10;
+            lblPresupuesto.Size = new Size(200, 23);
+            lblPresupuesto.TabIndex = 8;
             lblPresupuesto.Text = "Presupuesto diario ($)";
             //
             // nudPresupuesto
@@ -198,22 +177,22 @@
             nudPresupuesto.BorderStyle = BorderStyle.FixedSingle;
             nudPresupuesto.ForeColor = Color.White;
             nudPresupuesto.Increment = new decimal(new int[] { 1000, 0, 0, 0 });
-            nudPresupuesto.Location = new Point(16, 418);
+            nudPresupuesto.Location = new Point(16, 308);
             nudPresupuesto.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
             nudPresupuesto.Minimum = new decimal(new int[] { 0, 0, 0, 0 });
             nudPresupuesto.Name = "nudPresupuesto";
             nudPresupuesto.Size = new Size(218, 30);
-            nudPresupuesto.TabIndex = 11;
+            nudPresupuesto.TabIndex = 9;
             nudPresupuesto.ThousandsSeparator = true;
             nudPresupuesto.Value = new decimal(new int[] { 10000, 0, 0, 0 });
             //
             // lblTarifa
             //
             lblTarifa.AutoSize = true;
-            lblTarifa.Location = new Point(16, 460);
+            lblTarifa.Location = new Point(16, 350);
             lblTarifa.Name = "lblTarifa";
-            lblTarifa.Size = new Size(150, 23);
-            lblTarifa.TabIndex = 12;
+            lblTarifa.Size = new Size(200, 23);
+            lblTarifa.TabIndex = 10;
             lblTarifa.Text = "Tarifa del agua ($/m³)";
             //
             // nudTarifa
@@ -222,115 +201,62 @@
             nudTarifa.BorderStyle = BorderStyle.FixedSingle;
             nudTarifa.ForeColor = Color.White;
             nudTarifa.Increment = new decimal(new int[] { 100, 0, 0, 0 });
-            nudTarifa.Location = new Point(16, 486);
+            nudTarifa.Location = new Point(16, 376);
             nudTarifa.Maximum = new decimal(new int[] { 100000, 0, 0, 0 });
             nudTarifa.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudTarifa.Name = "nudTarifa";
             nudTarifa.Size = new Size(218, 30);
-            nudTarifa.TabIndex = 13;
+            nudTarifa.TabIndex = 11;
             nudTarifa.ThousandsSeparator = true;
             nudTarifa.Value = new decimal(new int[] { 5000, 0, 0, 0 });
             //
-            // btnRepartir
+            // btnCalcular
             //
-            btnRepartir.BackColor = Color.FromArgb(8, 86, 188);
-            btnRepartir.FlatAppearance.BorderSize = 0;
-            btnRepartir.FlatStyle = FlatStyle.Flat;
-            btnRepartir.ForeColor = Color.FromArgb(254, 255, 255);
-            btnRepartir.Location = new Point(16, 528);
-            btnRepartir.Name = "btnRepartir";
-            btnRepartir.Size = new Size(218, 40);
-            btnRepartir.TabIndex = 14;
-            btnRepartir.Text = "Repartir con Lagrange";
-            btnRepartir.UseVisualStyleBackColor = false;
-            btnRepartir.Click += btnRepartir_Click;
+            btnCalcular.BackColor = Color.FromArgb(8, 86, 188);
+            btnCalcular.FlatAppearance.BorderSize = 0;
+            btnCalcular.FlatStyle = FlatStyle.Flat;
+            btnCalcular.ForeColor = Color.FromArgb(254, 255, 255);
+            btnCalcular.Location = new Point(16, 420);
+            btnCalcular.Name = "btnCalcular";
+            btnCalcular.Size = new Size(218, 40);
+            btnCalcular.TabIndex = 12;
+            btnCalcular.Text = "Calcular plan";
+            btnCalcular.UseVisualStyleBackColor = false;
+            btnCalcular.Click += btnCalcular_Click;
             //
-            // lienzo
+            // btnDetalle
             //
-            lienzo.BackColor = Color.FromArgb(3, 14, 32);
-            lienzo.Dock = DockStyle.Fill;
-            lienzo.ForeColor = Color.FromArgb(254, 255, 255);
-            lienzo.Location = new Point(0, 0);
-            lienzo.Name = "lienzo";
-            lienzo.Size = new Size(767, 346);
-            lienzo.TabIndex = 0;
-            //
-            // lstZona
-            //
-            lstZona.BackColor = Color.FromArgb(13, 34, 65);
-            lstZona.BorderStyle = BorderStyle.None;
-            lstZona.Dock = DockStyle.Bottom;
-            lstZona.ForeColor = Color.FromArgb(254, 255, 255);
-            lstZona.HorizontalScrollbar = true;
-            lstZona.IntegralHeight = false;
-            lstZona.Location = new Point(0, 346);
-            lstZona.Name = "lstZona";
-            lstZona.Size = new Size(767, 210);
-            lstZona.TabIndex = 1;
-            //
-            // panelZona
-            //
-            panelZona.Controls.Add(lienzo);
-            panelZona.Controls.Add(lstZona);
-            panelZona.Dock = DockStyle.Fill;
-            panelZona.Location = new Point(16, 72);
-            panelZona.Name = "panelZona";
-            panelZona.Size = new Size(767, 556);
-            panelZona.TabIndex = 0;
-            //
-            // dgvReparto
-            //
-            dgvReparto.Dock = DockStyle.Fill;
-            dgvReparto.Location = new Point(0, 0);
-            dgvReparto.Name = "dgvReparto";
-            dgvReparto.Size = new Size(767, 366);
-            dgvReparto.TabIndex = 0;
-            //
-            // lstReparto
-            //
-            lstReparto.BackColor = Color.FromArgb(13, 34, 65);
-            lstReparto.BorderStyle = BorderStyle.None;
-            lstReparto.Dock = DockStyle.Bottom;
-            lstReparto.ForeColor = Color.FromArgb(254, 255, 255);
-            lstReparto.HorizontalScrollbar = true;
-            lstReparto.IntegralHeight = false;
-            lstReparto.Location = new Point(0, 366);
-            lstReparto.Name = "lstReparto";
-            lstReparto.Size = new Size(767, 190);
-            lstReparto.TabIndex = 1;
-            //
-            // panelReparto
-            //
-            panelReparto.Controls.Add(dgvReparto);
-            panelReparto.Controls.Add(lstReparto);
-            panelReparto.Dock = DockStyle.Fill;
-            panelReparto.Location = new Point(16, 72);
-            panelReparto.Name = "panelReparto";
-            panelReparto.Size = new Size(767, 556);
-            panelReparto.TabIndex = 1;
-            panelReparto.Visible = false;
+            btnDetalle.BackColor = Color.FromArgb(38, 62, 100);
+            btnDetalle.FlatAppearance.BorderSize = 0;
+            btnDetalle.FlatStyle = FlatStyle.Flat;
+            btnDetalle.ForeColor = Color.FromArgb(254, 255, 255);
+            btnDetalle.Location = new Point(16, 470);
+            btnDetalle.Name = "btnDetalle";
+            btnDetalle.Size = new Size(218, 36);
+            btnDetalle.TabIndex = 13;
+            btnDetalle.Text = "Ver cálculo detallado";
+            btnDetalle.UseVisualStyleBackColor = false;
+            btnDetalle.Click += btnDetalle_Click;
             //
             // panelDatos
             //
             panelDatos.AutoScroll = true;
             panelDatos.BackColor = Color.FromArgb(13, 34, 65);
-            panelDatos.Controls.Add(lblZona);
-            panelDatos.Controls.Add(cmbZona);
             panelDatos.Controls.Add(lblTemp);
             panelDatos.Controls.Add(nudTemp);
-            panelDatos.Controls.Add(lblHum);
-            panelDatos.Controls.Add(nudHum);
             panelDatos.Controls.Add(lblSol);
             panelDatos.Controls.Add(nudSol);
-            panelDatos.Controls.Add(btnTomar);
-            panelDatos.Controls.Add(btnCalcular);
+            panelDatos.Controls.Add(lblInicio);
+            panelDatos.Controls.Add(dtpInicio);
+            panelDatos.Controls.Add(lblHoras);
+            panelDatos.Controls.Add(nudHoras);
             panelDatos.Controls.Add(lblPresupuesto);
             panelDatos.Controls.Add(nudPresupuesto);
             panelDatos.Controls.Add(lblTarifa);
             panelDatos.Controls.Add(nudTarifa);
-            panelDatos.Controls.Add(btnRepartir);
+            panelDatos.Controls.Add(btnCalcular);
+            panelDatos.Controls.Add(btnDetalle);
             panelDatos.Dock = DockStyle.Right;
-            panelDatos.Location = new Point(783, 0);
             panelDatos.Name = "panelDatos";
             panelDatos.Size = new Size(250, 628);
             panelDatos.TabIndex = 2;
@@ -339,7 +265,6 @@
             //
             lblEstado.Dock = DockStyle.Bottom;
             lblEstado.ForeColor = Color.FromArgb(174, 180, 194);
-            lblEstado.Location = new Point(16, 628);
             lblEstado.Name = "lblEstado";
             lblEstado.Size = new Size(1017, 36);
             lblEstado.TabIndex = 3;
@@ -350,11 +275,10 @@
             //
             lblTitulo.Dock = DockStyle.Top;
             lblTitulo.Font = new Font("Bahnschrift Condensed", 22.25F);
-            lblTitulo.Location = new Point(16, 0);
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(767, 72);
             lblTitulo.TabIndex = 4;
-            lblTitulo.Text = "Cálculo multivariable";
+            lblTitulo.Text = "Plan de riego";
             lblTitulo.TextAlign = ContentAlignment.MiddleLeft;
             //
             // VistaCalculo
@@ -362,8 +286,8 @@
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(3, 14, 32);
-            Controls.Add(panelZona);
-            Controls.Add(panelReparto);
+            Controls.Add(dgvPlan);
+            Controls.Add(lblResumen);
             Controls.Add(panelDatos);
             Controls.Add(lblEstado);
             Controls.Add(lblTitulo);
@@ -372,14 +296,12 @@
             Name = "VistaCalculo";
             Padding = new Padding(16, 0, 16, 0);
             Size = new Size(1049, 664);
+            ((System.ComponentModel.ISupportInitialize)dgvPlan).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudTemp).EndInit();
-            ((System.ComponentModel.ISupportInitialize)nudHum).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudSol).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudHoras).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudPresupuesto).EndInit();
             ((System.ComponentModel.ISupportInitialize)nudTarifa).EndInit();
-            ((System.ComponentModel.ISupportInitialize)dgvReparto).EndInit();
-            panelZona.ResumeLayout(false);
-            panelReparto.ResumeLayout(false);
             panelDatos.ResumeLayout(false);
             panelDatos.PerformLayout();
             ResumeLayout(false);
@@ -387,27 +309,22 @@
 
         #endregion
 
-        private Label lblZona;
-        private ComboBox cmbZona;
+        private DataGridView dgvPlan;
+        private Label lblResumen;
         private Label lblTemp;
         private NumericUpDown nudTemp;
-        private Label lblHum;
-        private NumericUpDown nudHum;
         private Label lblSol;
         private NumericUpDown nudSol;
-        private Button btnTomar;
-        private Button btnCalcular;
+        private Label lblInicio;
+        private DateTimePicker dtpInicio;
+        private Label lblHoras;
+        private NumericUpDown nudHoras;
         private Label lblPresupuesto;
         private NumericUpDown nudPresupuesto;
         private Label lblTarifa;
         private NumericUpDown nudTarifa;
-        private Button btnRepartir;
-        private LienzoCampo lienzo;
-        private ListBox lstZona;
-        private Panel panelZona;
-        private DataGridView dgvReparto;
-        private ListBox lstReparto;
-        private Panel panelReparto;
+        private Button btnCalcular;
+        private Button btnDetalle;
         private Panel panelDatos;
         private Label lblEstado;
         private Label lblTitulo;

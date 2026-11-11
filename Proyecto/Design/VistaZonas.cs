@@ -1,14 +1,14 @@
 ﻿using Proyecto.Domain;
 using Proyecto.Exceptions;
-using Proyecto.Infraestructure;
 using Proyecto.Presentacion;
+using Proyecto.Servicios;
 
 namespace Proyecto.Design
 {
     public partial class VistaZonas : UserControl
     {
-        private readonly RepositoryZona _repo;
-        private readonly RepositorySensor _sensores;
+        private readonly ServicioZonas _zonas;
+        private readonly ServicioSensores _sensores;
 
         // evita que los eventos de los controles reaccionen a cambios hechos por código.
         private bool _cargando;
@@ -16,19 +16,19 @@ namespace Proyecto.Design
         public VistaZonas()
         {
             InitializeComponent();
-            _repo = RepositoryZona.GetInstance();
-            _sensores = RepositorySensor.GetInstance();
+            _zonas = new ServicioZonas();
+            _sensores = new ServicioSensores();
         }
 
         private void VistaZonas_Load(object sender, EventArgs e)
         {
-            CargarZonas(_repo.GetAll().FirstOrDefault());
+            CargarZonas(_zonas.Todas().FirstOrDefault());
         }
 
         private void CargarZonas(ZonaVerde? seleccionar)
         {
             _cargando = true;
-            cmbZona.DataSource = _repo.GetAll() //halomolacha
+            cmbZona.DataSource = _zonas.Todas()
                 .Select(z => new { z.Id, Texto = $"{z.Id} - {z.Nombre}{(z.Activo ? "" : " (inactiva)")}" })
                 .ToList();
             _cargando = false;
@@ -50,7 +50,7 @@ namespace Proyecto.Design
             }
             _cargando = false;
 
-            lienzo.Mostrar(zona, zona == null ? new List<Sensor>() : _sensores.GetByZona(zona.Id));
+            lienzo.Mostrar(zona, zona == null ? new List<Sensor>() : _sensores.DeZona(zona.Id));
             btnActualizar.Enabled = zona != null;
             btnDesactivar.Enabled = zona != null && zona.Activo;
         }
@@ -59,7 +59,7 @@ namespace Proyecto.Design
         {
             if (!_cargando && cmbZona.SelectedValue is long id)
             {
-                Mostrar(_repo.GetById(id));
+                Mostrar(_zonas.Buscar(id));
                 lblEstado.Text = "Listo";
             }
         }
@@ -73,8 +73,9 @@ namespace Proyecto.Design
             }
 
             long id = (long)nudId.Value;
-            Mostrar(_repo.GetById(id));
-            lblEstado.Text = _repo.Exists(id) ? "Listo" : $"No existe la zona {id}";
+            ZonaVerde? zona = _zonas.Buscar(id);
+            Mostrar(zona);
+            lblEstado.Text = zona != null ? "Listo" : $"No existe la zona {id}";
         }
 
         private void btnAgregar_Click(object sender, EventArgs e)
@@ -86,7 +87,7 @@ namespace Proyecto.Design
 
         private void btnActualizar_Click(object sender, EventArgs e)
         {
-            ZonaVerde? zona = _repo.GetById((long)nudId.Value);
+            ZonaVerde? zona = _zonas.Buscar((long)nudId.Value);
             if (zona == null)
             {
                 return;
@@ -101,14 +102,14 @@ namespace Proyecto.Design
         {
             if (id is long guardada)
             {
-                CargarZonas(_repo.GetById(guardada));
+                CargarZonas(_zonas.Buscar(guardada));
                 lblEstado.Text = $"Zona {guardada} {accion}";
             }
         }
 
         private void btnDesactivar_Click(object sender, EventArgs e)
         {
-            ZonaVerde? zona = _repo.GetById((long)nudId.Value);
+            ZonaVerde? zona = _zonas.Buscar((long)nudId.Value);
             if (zona == null)
             {
                 return;
@@ -125,11 +126,8 @@ namespace Proyecto.Design
 
             try
             {
-                ZonaVerde inactiva = zona.ConEstado(false);
-                _repo.Update(inactiva);
+                ZonaVerde inactiva = _zonas.Desactivar(zona.Id);
                 CargarZonas(inactiva);
-
-                _repo.Commit();
                 lblEstado.Text = $"Zona {zona.Id} desactivada";
             }
             catch (DomainExceptions ex)
@@ -138,6 +136,8 @@ namespace Proyecto.Design
             }
             catch (Exception ex) when (ex is IOException or UnauthorizedAccessException)
             {
+                // El cambio ya quedó en memoria: se muestra, aunque el archivo no se escribió.
+                CargarZonas(_zonas.Buscar(zona.Id));
                 lblEstado.Text = "Cambios sin guardar en el archivo";
                 UiHelper.Error($"No se pudo escribir el archivo. ¿Está abierto en Excel?\n\n{ex.Message}");
             }

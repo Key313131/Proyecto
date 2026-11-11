@@ -1,5 +1,4 @@
-﻿using Proyecto.Calculo;
-using Proyecto.Domain;
+﻿using Proyecto.Domain;
 using Proyecto.DynamicStructure;
 using Proyecto.Exceptions;
 using Proyecto.Infraestructure;
@@ -320,9 +319,7 @@ namespace Proyecto.Simulation
         {
             return sensor.Tipo switch
             {
-                // Los puntos altos del terreno quedan más secos que el centro de la zona.
-                TipoSensor.HumedadSuelo => Math.Clamp(
-                    estado.Humedad + Terreno.AjusteHumedad(zona, sensor.x, sensor.y) + Ruido(1.0), 0, 100),
+                TipoSensor.HumedadSuelo => Math.Clamp(estado.Humedad + Ruido(1.0), 0, 100),
                 TipoSensor.Temperatura => temperatura + Ruido(0.3),
                 TipoSensor.Lluvia => lluvia,
                 TipoSensor.Caudal => estado.Regando ? CaudalRiego(zona) * (1 + Ruido(0.02)) : 0,

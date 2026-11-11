@@ -1,5 +1,5 @@
 ﻿using Proyecto.Domain;
-using Proyecto.Infraestructure;
+using Proyecto.Servicios;
 using Proyecto.Presentacion;
 using Proyecto.Simulation;
 
@@ -10,11 +10,15 @@ namespace Proyecto.Design
     public partial class VistaSimulador : UserControl
     {
         private readonly SimuladorSensores _sim;
+        private readonly ServicioSensores _sensores;
+        private readonly ServicioZonas _zonas;
 
         public VistaSimulador()
         {
             InitializeComponent();
             _sim = SimuladorSensores.GetInstance();
+            _sensores = new ServicioSensores();
+            _zonas = new ServicioZonas();
 
             // Carga lecturas.csv ya (si está dañado, Principal lo avisa al abrir la vista)
             // y pone el reloj en la hora de la última lectura guardada.
@@ -52,9 +56,7 @@ namespace Proyecto.Design
 
         private void btnIniciar_Click(object sender, EventArgs e)
         {
-            bool haySensores = RepositorySensor.GetInstance().GetAll().Any(s => s.Activo
-                && RepositoryZona.GetInstance().GetById(s.ZonaId)?.Activo == true);
-            if (!haySensores)
+            if (!_sensores.HaySimulables())
             {
                 UiHelper.Aviso("No hay sensores activos en zonas activas para simular.");
                 return;
@@ -79,8 +81,6 @@ namespace Proyecto.Design
 
         private void Refrescar()
         {
-            RepositorySensor sensores = RepositorySensor.GetInstance();
-            RepositoryZona zonas = RepositoryZona.GetInstance();
 
             // Se reutilizan las filas y solo se cambian sus valores: es más liviano que
             // reemplazar el DataSource en cada paso, y la tabla no parpadea.
@@ -97,8 +97,8 @@ namespace Proyecto.Design
             int fila = 0;
             foreach (Lectura l in _sim.UltimasLecturas)
             {
-                Sensor? sensor = sensores.GetById(l.SensorId);
-                ZonaVerde? zona = sensor == null ? null : zonas.GetById(sensor.ZonaId);
+                Sensor? sensor = _sensores.Buscar(l.SensorId);
+                ZonaVerde? zona = sensor == null ? null : _zonas.Buscar(sensor.ZonaId);
                 string regando = zona != null && _sim.RegandoZona(zona.Id) ? " (regando)" : "";
 
                 dgvLecturas.Rows[fila].SetValues(

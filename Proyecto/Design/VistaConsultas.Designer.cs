@@ -29,8 +29,6 @@
         private void InitializeComponent()
         {
             dgvResultados = new DataGridView();
-            lstDetalle = new ListBox();
-            panelFiltros = new Panel();
             lblSensor = new Label();
             cmbSensor = new ComboBox();
             chkFechas = new CheckBox();
@@ -38,79 +36,34 @@
             dtpHasta = new DateTimePicker();
             lblCriterio = new Label();
             cmbCriterio = new ComboBox();
-            lblAlgoritmo = new Label();
-            cmbAlgoritmo = new ComboBox();
             chkDescendente = new CheckBox();
             btnConsultar = new Button();
             lblId = new Label();
             nudId = new NumericUpDown();
             btnBuscarId = new Button();
-            lblN = new Label();
-            nudN = new NumericUpDown();
-            btnComparar = new Button();
+            btnAnalisis = new Button();
+            panelFiltros = new Panel();
             lblEstado = new Label();
             lblTitulo = new Label();
             ((System.ComponentModel.ISupportInitialize)dgvResultados).BeginInit();
-            panelFiltros.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)nudId).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)nudN).BeginInit();
+            panelFiltros.SuspendLayout();
             SuspendLayout();
             //
             // dgvResultados
             //
             dgvResultados.Dock = DockStyle.Fill;
-            dgvResultados.Location = new Point(16, 72);
             dgvResultados.Name = "dgvResultados";
-            dgvResultados.Size = new Size(767, 386);
+            dgvResultados.Size = new Size(767, 400);
             dgvResultados.TabIndex = 0;
             dgvResultados.CellValueNeeded += dgvResultados_CellValueNeeded;
-            //
-            // lstDetalle
-            //
-            lstDetalle.BackColor = Color.FromArgb(13, 34, 65);
-            lstDetalle.BorderStyle = BorderStyle.None;
-            lstDetalle.Dock = DockStyle.Bottom;
-            lstDetalle.ForeColor = Color.FromArgb(254, 255, 255);
-            lstDetalle.HorizontalScrollbar = true;
-            lstDetalle.IntegralHeight = false;
-            lstDetalle.Location = new Point(16, 458);
-            lstDetalle.Name = "lstDetalle";
-            lstDetalle.Size = new Size(767, 170);
-            lstDetalle.TabIndex = 1;
-            //
-            // panelFiltros
-            //
-            panelFiltros.AutoScroll = true;
-            panelFiltros.BackColor = Color.FromArgb(13, 34, 65);
-            panelFiltros.Controls.Add(lblSensor);
-            panelFiltros.Controls.Add(cmbSensor);
-            panelFiltros.Controls.Add(chkFechas);
-            panelFiltros.Controls.Add(dtpDesde);
-            panelFiltros.Controls.Add(dtpHasta);
-            panelFiltros.Controls.Add(lblCriterio);
-            panelFiltros.Controls.Add(cmbCriterio);
-            panelFiltros.Controls.Add(lblAlgoritmo);
-            panelFiltros.Controls.Add(cmbAlgoritmo);
-            panelFiltros.Controls.Add(chkDescendente);
-            panelFiltros.Controls.Add(btnConsultar);
-            panelFiltros.Controls.Add(lblId);
-            panelFiltros.Controls.Add(nudId);
-            panelFiltros.Controls.Add(btnBuscarId);
-            panelFiltros.Controls.Add(lblN);
-            panelFiltros.Controls.Add(nudN);
-            panelFiltros.Controls.Add(btnComparar);
-            panelFiltros.Dock = DockStyle.Right;
-            panelFiltros.Location = new Point(783, 0);
-            panelFiltros.Name = "panelFiltros";
-            panelFiltros.Size = new Size(250, 628);
-            panelFiltros.TabIndex = 2;
             //
             // lblSensor
             //
             lblSensor.AutoSize = true;
             lblSensor.Location = new Point(16, 10);
             lblSensor.Name = "lblSensor";
-            lblSensor.Size = new Size(58, 23);
+            lblSensor.Size = new Size(150, 23);
             lblSensor.TabIndex = 0;
             lblSensor.Text = "Sensor";
             //
@@ -132,7 +85,7 @@
             chkFechas.AutoSize = true;
             chkFechas.Location = new Point(16, 78);
             chkFechas.Name = "chkFechas";
-            chkFechas.Size = new Size(147, 27);
+            chkFechas.Size = new Size(150, 27);
             chkFechas.TabIndex = 2;
             chkFechas.Text = "Filtrar por fechas";
             chkFechas.UseVisualStyleBackColor = true;
@@ -161,7 +114,7 @@
             lblCriterio.AutoSize = true;
             lblCriterio.Location = new Point(16, 186);
             lblCriterio.Name = "lblCriterio";
-            lblCriterio.Size = new Size(95, 23);
+            lblCriterio.Size = new Size(150, 23);
             lblCriterio.TabIndex = 5;
             lblCriterio.Text = "Ordenar por";
             //
@@ -176,33 +129,13 @@
             cmbCriterio.Size = new Size(218, 31);
             cmbCriterio.TabIndex = 6;
             //
-            // lblAlgoritmo
-            //
-            lblAlgoritmo.AutoSize = true;
-            lblAlgoritmo.Location = new Point(16, 254);
-            lblAlgoritmo.Name = "lblAlgoritmo";
-            lblAlgoritmo.Size = new Size(83, 23);
-            lblAlgoritmo.TabIndex = 7;
-            lblAlgoritmo.Text = "Algoritmo";
-            //
-            // cmbAlgoritmo
-            //
-            cmbAlgoritmo.BackColor = Color.FromArgb(3, 14, 32);
-            cmbAlgoritmo.DropDownStyle = ComboBoxStyle.DropDownList;
-            cmbAlgoritmo.FlatStyle = FlatStyle.Flat;
-            cmbAlgoritmo.ForeColor = Color.White;
-            cmbAlgoritmo.Location = new Point(16, 280);
-            cmbAlgoritmo.Name = "cmbAlgoritmo";
-            cmbAlgoritmo.Size = new Size(218, 31);
-            cmbAlgoritmo.TabIndex = 8;
-            //
             // chkDescendente
             //
             chkDescendente.AutoSize = true;
-            chkDescendente.Location = new Point(16, 320);
+            chkDescendente.Location = new Point(16, 252);
             chkDescendente.Name = "chkDescendente";
-            chkDescendente.Size = new Size(116, 27);
-            chkDescendente.TabIndex = 9;
+            chkDescendente.Size = new Size(150, 27);
+            chkDescendente.TabIndex = 7;
             chkDescendente.Text = "Descendente";
             chkDescendente.UseVisualStyleBackColor = true;
             //
@@ -212,10 +145,10 @@
             btnConsultar.FlatAppearance.BorderSize = 0;
             btnConsultar.FlatStyle = FlatStyle.Flat;
             btnConsultar.ForeColor = Color.FromArgb(254, 255, 255);
-            btnConsultar.Location = new Point(16, 356);
+            btnConsultar.Location = new Point(16, 288);
             btnConsultar.Name = "btnConsultar";
             btnConsultar.Size = new Size(218, 40);
-            btnConsultar.TabIndex = 10;
+            btnConsultar.TabIndex = 8;
             btnConsultar.Text = "Consultar";
             btnConsultar.UseVisualStyleBackColor = false;
             btnConsultar.Click += btnConsultar_Click;
@@ -223,10 +156,10 @@
             // lblId
             //
             lblId.AutoSize = true;
-            lblId.Location = new Point(16, 414);
+            lblId.Location = new Point(16, 346);
             lblId.Name = "lblId";
             lblId.Size = new Size(160, 23);
-            lblId.TabIndex = 11;
+            lblId.TabIndex = 9;
             lblId.Text = "Buscar lectura por Id";
             //
             // nudId
@@ -234,12 +167,12 @@
             nudId.BackColor = Color.FromArgb(3, 14, 32);
             nudId.BorderStyle = BorderStyle.FixedSingle;
             nudId.ForeColor = Color.White;
-            nudId.Location = new Point(16, 442);
+            nudId.Location = new Point(16, 374);
             nudId.Maximum = new decimal(new int[] { 1000000000, 0, 0, 0 });
             nudId.Minimum = new decimal(new int[] { 1, 0, 0, 0 });
             nudId.Name = "nudId";
             nudId.Size = new Size(110, 30);
-            nudId.TabIndex = 12;
+            nudId.TabIndex = 10;
             nudId.Value = new decimal(new int[] { 1, 0, 0, 0 });
             //
             // btnBuscarId
@@ -248,57 +181,54 @@
             btnBuscarId.FlatAppearance.BorderSize = 0;
             btnBuscarId.FlatStyle = FlatStyle.Flat;
             btnBuscarId.ForeColor = Color.FromArgb(254, 255, 255);
-            btnBuscarId.Location = new Point(134, 440);
+            btnBuscarId.Location = new Point(134, 372);
             btnBuscarId.Name = "btnBuscarId";
             btnBuscarId.Size = new Size(100, 34);
-            btnBuscarId.TabIndex = 13;
+            btnBuscarId.TabIndex = 11;
             btnBuscarId.Text = "Buscar";
             btnBuscarId.UseVisualStyleBackColor = false;
             btnBuscarId.Click += btnBuscarId_Click;
             //
-            // lblN
+            // btnAnalisis
             //
-            lblN.AutoSize = true;
-            lblN.Location = new Point(16, 490);
-            lblN.Name = "lblN";
-            lblN.Size = new Size(190, 23);
-            lblN.TabIndex = 14;
-            lblN.Text = "Comparar algoritmos (n)";
+            btnAnalisis.BackColor = Color.FromArgb(38, 62, 100);
+            btnAnalisis.FlatAppearance.BorderSize = 0;
+            btnAnalisis.FlatStyle = FlatStyle.Flat;
+            btnAnalisis.ForeColor = Color.FromArgb(254, 255, 255);
+            btnAnalisis.Location = new Point(16, 432);
+            btnAnalisis.Name = "btnAnalisis";
+            btnAnalisis.Size = new Size(218, 36);
+            btnAnalisis.TabIndex = 12;
+            btnAnalisis.Text = "Análisis de algoritmos";
+            btnAnalisis.UseVisualStyleBackColor = false;
+            btnAnalisis.Click += btnAnalisis_Click;
             //
-            // nudN
+            // panelFiltros
             //
-            nudN.BackColor = Color.FromArgb(3, 14, 32);
-            nudN.BorderStyle = BorderStyle.FixedSingle;
-            nudN.ForeColor = Color.White;
-            nudN.Increment = new decimal(new int[] { 1000, 0, 0, 0 });
-            nudN.Location = new Point(16, 518);
-            nudN.Maximum = new decimal(new int[] { 200000, 0, 0, 0 });
-            nudN.Minimum = new decimal(new int[] { 10, 0, 0, 0 });
-            nudN.Name = "nudN";
-            nudN.Size = new Size(110, 30);
-            nudN.TabIndex = 15;
-            nudN.ThousandsSeparator = true;
-            nudN.Value = new decimal(new int[] { 5000, 0, 0, 0 });
-            //
-            // btnComparar
-            //
-            btnComparar.BackColor = Color.FromArgb(8, 86, 188);
-            btnComparar.FlatAppearance.BorderSize = 0;
-            btnComparar.FlatStyle = FlatStyle.Flat;
-            btnComparar.ForeColor = Color.FromArgb(254, 255, 255);
-            btnComparar.Location = new Point(134, 516);
-            btnComparar.Name = "btnComparar";
-            btnComparar.Size = new Size(100, 34);
-            btnComparar.TabIndex = 16;
-            btnComparar.Text = "Comparar";
-            btnComparar.UseVisualStyleBackColor = false;
-            btnComparar.Click += btnComparar_Click;
+            panelFiltros.AutoScroll = true;
+            panelFiltros.BackColor = Color.FromArgb(13, 34, 65);
+            panelFiltros.Controls.Add(lblSensor);
+            panelFiltros.Controls.Add(cmbSensor);
+            panelFiltros.Controls.Add(chkFechas);
+            panelFiltros.Controls.Add(dtpDesde);
+            panelFiltros.Controls.Add(dtpHasta);
+            panelFiltros.Controls.Add(lblCriterio);
+            panelFiltros.Controls.Add(cmbCriterio);
+            panelFiltros.Controls.Add(chkDescendente);
+            panelFiltros.Controls.Add(btnConsultar);
+            panelFiltros.Controls.Add(lblId);
+            panelFiltros.Controls.Add(nudId);
+            panelFiltros.Controls.Add(btnBuscarId);
+            panelFiltros.Controls.Add(btnAnalisis);
+            panelFiltros.Dock = DockStyle.Right;
+            panelFiltros.Name = "panelFiltros";
+            panelFiltros.Size = new Size(250, 628);
+            panelFiltros.TabIndex = 2;
             //
             // lblEstado
             //
             lblEstado.Dock = DockStyle.Bottom;
             lblEstado.ForeColor = Color.FromArgb(174, 180, 194);
-            lblEstado.Location = new Point(16, 628);
             lblEstado.Name = "lblEstado";
             lblEstado.Size = new Size(1017, 36);
             lblEstado.TabIndex = 3;
@@ -309,7 +239,6 @@
             //
             lblTitulo.Dock = DockStyle.Top;
             lblTitulo.Font = new Font("Bahnschrift Condensed", 22.25F);
-            lblTitulo.Location = new Point(16, 0);
             lblTitulo.Name = "lblTitulo";
             lblTitulo.Size = new Size(767, 72);
             lblTitulo.TabIndex = 4;
@@ -322,7 +251,6 @@
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(3, 14, 32);
             Controls.Add(dgvResultados);
-            Controls.Add(lstDetalle);
             Controls.Add(panelFiltros);
             Controls.Add(lblEstado);
             Controls.Add(lblTitulo);
@@ -332,18 +260,15 @@
             Padding = new Padding(16, 0, 16, 0);
             Size = new Size(1049, 664);
             ((System.ComponentModel.ISupportInitialize)dgvResultados).EndInit();
+            ((System.ComponentModel.ISupportInitialize)nudId).EndInit();
             panelFiltros.ResumeLayout(false);
             panelFiltros.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)nudId).EndInit();
-            ((System.ComponentModel.ISupportInitialize)nudN).EndInit();
             ResumeLayout(false);
         }
 
         #endregion
 
         private DataGridView dgvResultados;
-        private ListBox lstDetalle;
-        private Panel panelFiltros;
         private Label lblSensor;
         private ComboBox cmbSensor;
         private CheckBox chkFechas;
@@ -351,16 +276,13 @@
         private DateTimePicker dtpHasta;
         private Label lblCriterio;
         private ComboBox cmbCriterio;
-        private Label lblAlgoritmo;
-        private ComboBox cmbAlgoritmo;
         private CheckBox chkDescendente;
         private Button btnConsultar;
         private Label lblId;
         private NumericUpDown nudId;
         private Button btnBuscarId;
-        private Label lblN;
-        private NumericUpDown nudN;
-        private Button btnComparar;
+        private Button btnAnalisis;
+        private Panel panelFiltros;
         private Label lblEstado;
         private Label lblTitulo;
     }

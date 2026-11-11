@@ -59,31 +59,5 @@ namespace Proyecto.Calculo
             double reposicion = LaminaReposicion(v.Humedad, humedadObjetivo, zona.ProfundidadRaizM);
             return v.Area * (evaporacion + reposicion);
         }
-
-        // La misma W pero recibiendo las variables en un arreglo [T, H, A, S],
-        // que es lo que necesitan las derivadas numéricas.
-        public static Func<double[], double> ComoFuncion(ZonaVerde zona)
-        {
-            return p => Necesidad(zona, new VariablesAgua(p[0], p[1], p[2], p[3]));
-        }
-
-        // Gradiente EXACTO, derivando la fórmula a mano:
-        //   ∂W/∂T = A · Kc · p · 0,46                         (más calor → más agua)
-        //   ∂W/∂H = −A · Pr · 1000 · θ / 100  si H < Hobj; 0 si no   (más húmedo → menos agua)
-        //   ∂W/∂A = Kc · ET₀ + reposición  (la lámina)         (más área → más agua)
-        //   ∂W/∂S = A · Kc · (0,46 · T + 8,13) · 100 / 4380    (más luz → más agua)
-        public static double[] Gradiente(ZonaVerde zona, VariablesAgua v)
-        {
-            double p = v.HorasSol / HorasLuzAnuales * 100;
-            double hObjetivo = HumedadObjetivo(zona);
-
-            double dT = v.Area * zona.Kc * p * 0.46;
-            double dH = v.Humedad < hObjetivo ? -v.Area * zona.ProfundidadRaizM * 1000 * Porosidad / 100 : 0;
-            double dA = zona.Kc * Et0(v.Temperatura, v.HorasSol)
-                        + LaminaReposicion(v.Humedad, hObjetivo, zona.ProfundidadRaizM);
-            double dS = v.Area * zona.Kc * (0.46 * v.Temperatura + 8.13) * 100 / HorasLuzAnuales;
-
-            return new[] { dT, dH, dA, dS };
-        }
     }
 }

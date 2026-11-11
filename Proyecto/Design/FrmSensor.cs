@@ -1,15 +1,15 @@
 ﻿using Proyecto.Domain;
 using Proyecto.Exceptions;
-using Proyecto.Infraestructure;
 using Proyecto.Presentacion;
+using Proyecto.Servicios;
 
 namespace Proyecto.Design
 {
 
     public partial class FrmSensor : Form
     {
-        private readonly RepositorySensor _repo;
-        private readonly RepositoryZona _zonas;
+        private readonly ServicioSensores _sensores;
+        private readonly ServicioZonas _zonas;
         private readonly Sensor _datos;
         private long? _idActual;
 
@@ -18,8 +18,8 @@ namespace Proyecto.Design
         public FrmSensor()
         {
             InitializeComponent();
-            _repo = RepositorySensor.GetInstance();
-            _zonas = RepositoryZona.GetInstance();
+            _sensores = new ServicioSensores();
+            _zonas = new ServicioZonas();
             _datos = Sensor.Create();
         }
 
@@ -41,12 +41,10 @@ namespace Proyecto.Design
         {
             cmbTipo.DataSource = Enum.GetValues<TipoSensor>();
 
-            cmbZona.DataSource = _zonas.GetAll()
-                .Where(z => z.Activo || (_idActual != null && z.Id == _datos.ZonaId))
-                .ToList();
+            cmbZona.DataSource = _zonas.ParaSensor(_idActual == null ? null : _datos).ToList();
 
             Text = _idActual == null ? "Agregar sensor" : "Actualizar sensor";
-            txtId.Text = (_idActual ?? _repo.SiguienteId()).ToString();
+            txtId.Text = (_idActual ?? _sensores.SiguienteId()).ToString();
             cmbZona.SelectedValue = _datos.ZonaId;
             cmbTipo.SelectedItem = _datos.Tipo;
             UiHelper.Poner(nudX, _datos.x);
@@ -64,7 +62,7 @@ namespace Proyecto.Design
 
             try
             {
-                long id = _idActual ?? _repo.SiguienteId();
+                long id = _idActual ?? _sensores.SiguienteId();
 
                 Sensor sensor = Sensor.Create(
                     id,
@@ -74,19 +72,10 @@ namespace Proyecto.Design
                     (double)nudY.Value,
                     chkActivo.Checked);
 
-                if (_idActual == null)
-                {
-                    _repo.Add(sensor);
-                }
-                else
-                {
-                    _repo.Update(sensor);
-                }
-
                 _idActual = id;
                 IdGuardado = id;
 
-                _repo.Commit();
+                _sensores.Guardar(sensor);
                 DialogResult = DialogResult.OK;
             }
             catch (DomainExceptions ex)

@@ -73,6 +73,19 @@
             return true;
         }
 
+        // Le da la vuelta al arreglo: el primero queda último. O(n), intercambiando las puntas.
+        public static void Invertir<T>(T[] datos)
+        {
+            int i = 0;
+            int j = datos.Length - 1;
+            while (i < j)
+            {
+                Intercambiar(datos, i, j);
+                i++;
+                j--;
+            }
+        }
+
         // ---------------- Burbuja ----------------
         // Compara cada par de vecinos y los intercambia si están al revés. En cada pasada
         // el mayor "sube" hasta el final, como una burbuja.

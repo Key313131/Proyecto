@@ -137,39 +137,56 @@ namespace Proyecto.Algorithms
                 ? $"3. Todos los sensores: {resultado.Length:N0} lecturas"
                 : $"3. Filtro por sensor {sensor} (búsqueda lineal en el rango): {resultado.Length:N0} lecturas, O(k)");
 
-            // 4. Ordenar con el algoritmo elegido, contando las comparaciones.
-            Algoritmo algoritmo = filtro.Algoritmo;
-            if (Ordenamiento.EsCuadratico(algoritmo) && resultado.Length > LimiteCuadratico)
-            {
-                r.Detalle.Add($"   {algoritmo} con {resultado.Length:N0} lecturas tardaría demasiado (O(n²)): se usa MergeSort");
-                algoritmo = Algoritmo.MergeSort;
-            }
-
+            // 4. Ordenar, pero solo si hace falta.
             Comparison<Lectura> criterio = Comparador(filtro.Criterio);
             Comparison<Lectura> ordenar = criterio;
             if (filtro.Descendente)
             {
                 ordenar = (a, b) => criterio(b, a);     // invertir los argumentos invierte el orden
             }
-
-            long comparaciones = 0;
-            Comparison<Lectura> contada = (a, b) =>
-            {
-                comparaciones++;
-                return ordenar(a, b);
-            };
-
-            Stopwatch tiempo = Stopwatch.StartNew();
-            Ordenamiento.Ordenar(resultado, contada, algoritmo);
-            tiempo.Stop();
-
             string sentido = filtro.Descendente ? " (descendente)" : "";
-            r.Detalle.Add($"4. Ordenado por {filtro.Criterio}{sentido} con {algoritmo}: {comparaciones:N0} comparaciones "
-                + $"en {tiempo.Elapsed.TotalMilliseconds:0.##} ms. {Ordenamiento.BigO(algoritmo)}");
 
-            if (!Ordenamiento.EsEstable(algoritmo) && filtro.Criterio != CriterioOrden.Fecha)
+            // 4a. ¿Ya está en el orden pedido? Revisarlo cuesta O(n), ordenar O(n log n).
+            //     Las lecturas llegan por fecha, así que "por fecha" casi nunca necesita ordenarse.
+            if (Ordenamiento.EstaOrdenado(resultado, ordenar))
             {
-                r.Detalle.Add("   QuickSort no es estable: entre lecturas iguales, las fechas pueden quedar mezcladas");
+                r.Detalle.Add($"4. Ya estaban ordenadas por {filtro.Criterio}{sentido}: no hizo falta ordenar (revisarlo es O(n))");
+            }
+            // 4b. Se pidió por fecha descendente y están por fecha ascendente: basta con darles
+            //     la vuelta, O(n). (Sirve porque fecha + Id nunca se repiten: no hay empates.)
+            else if (filtro.Criterio == CriterioOrden.Fecha && Ordenamiento.EstaOrdenado(resultado, criterio))
+            {
+                Ordenamiento.Invertir(resultado);
+                r.Detalle.Add("4. Estaban por fecha ascendente: se invirtió el arreglo, O(n), sin ordenar");
+            }
+            // 4c. Hay que ordenar de verdad.
+            else
+            {
+                Algoritmo algoritmo = filtro.Algoritmo;
+                if (Ordenamiento.EsCuadratico(algoritmo) && resultado.Length > LimiteCuadratico)
+                {
+                    r.Detalle.Add($"   {algoritmo} con {resultado.Length:N0} lecturas tardaría demasiado (O(n²)): se usa MergeSort");
+                    algoritmo = Algoritmo.MergeSort;
+                }
+
+                long comparaciones = 0;
+                Comparison<Lectura> contada = (a, b) =>
+                {
+                    comparaciones++;
+                    return ordenar(a, b);
+                };
+
+                Stopwatch tiempo = Stopwatch.StartNew();
+                Ordenamiento.Ordenar(resultado, contada, algoritmo);
+                tiempo.Stop();
+
+                r.Detalle.Add($"4. Ordenado por {filtro.Criterio}{sentido} con {algoritmo}: {comparaciones:N0} comparaciones "
+                    + $"en {tiempo.Elapsed.TotalMilliseconds:0.##} ms. {Ordenamiento.BigO(algoritmo)}");
+
+                if (!Ordenamiento.EsEstable(algoritmo) && filtro.Criterio != CriterioOrden.Fecha)
+                {
+                    r.Detalle.Add("   QuickSort no es estable: entre lecturas iguales, las fechas pueden quedar mezcladas");
+                }
             }
 
             r.Lecturas = resultado;

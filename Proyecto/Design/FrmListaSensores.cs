@@ -1,5 +1,5 @@
 ﻿using Proyecto.Domain;
-using Proyecto.Infraestructure;
+using Proyecto.Servicios;
 
 namespace Proyecto.Design
 {
@@ -7,16 +7,16 @@ namespace Proyecto.Design
     {
         private const long TodasLasZonas = 0;
 
-        private readonly RepositorySensor _repo;
-        private readonly RepositoryZona _zonas;
+        private readonly ServicioSensores _sensores;
+        private readonly ServicioZonas _zonas;
 
         public FrmListaSensores() : this(null) { }
 
         public FrmListaSensores(long? zonaInicial)
         {
             InitializeComponent();
-            _repo = RepositorySensor.GetInstance();
-            _zonas = RepositoryZona.GetInstance();
+            _sensores = new ServicioSensores();
+            _zonas = new ServicioZonas();
 
             Tema.Tabla(dgvSensores);
             dgvSensores.Columns.Add(Tema.Columna("Id", "Id", 55));
@@ -29,7 +29,7 @@ namespace Proyecto.Design
             dgvSensores.Columns.Add(Tema.ColumnaActivo());
 
            
-            var opciones = _zonas.GetAll()
+            var opciones = _zonas.Todas()
                 .Select(z => new { z.Id, Texto = $"{z.Id} - {z.Nombre}" })
                 .ToList();
             opciones.Insert(0, new { Id = TodasLasZonas, Texto = "Todas las zonas" });
@@ -46,7 +46,7 @@ namespace Proyecto.Design
                 return;
             }
 
-            IEnumerable<Sensor> sensores = zonaId == TodasLasZonas ? _repo.GetAll() : _repo.GetByZona(zonaId);
+            IEnumerable<Sensor> sensores = zonaId == TodasLasZonas ? _sensores.Todos() : _sensores.DeZona(zonaId);
 
             // polimorfismo con interfaces
             dgvSensores.DataSource = sensores
@@ -54,7 +54,7 @@ namespace Proyecto.Design
                 {
                     s.Id,
                     s.ZonaId,
-                    Zona = _zonas.GetById(s.ZonaId)?.Nombre ?? "(sin zona)",
+                    Zona = _zonas.Nombre(s.ZonaId),
                     s.Tipo,
                     s.Unidad,
                     s.x,

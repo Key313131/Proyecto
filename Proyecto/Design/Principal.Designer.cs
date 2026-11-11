@@ -109,7 +109,7 @@
             btnCalculo.Padding = new Padding(22, 0, 0, 0);
             btnCalculo.Size = new Size(230, 54);
             btnCalculo.TabIndex = 7;
-            btnCalculo.Text = "Cálculo";
+            btnCalculo.Text = "Plan de riego";
             btnCalculo.TextAlign = ContentAlignment.MiddleLeft;
             btnCalculo.UseVisualStyleBackColor = false;
             btnCalculo.Click += btnCalculo_Click;
