@@ -30,6 +30,7 @@
         {
             splitContainer1 = new SplitContainer();
             btnSalir = new Button();
+            btnConsultas = new Button();
             btnSimulador = new Button();
             btnSensores = new Button();
             btnZonas = new Button();
@@ -56,6 +57,7 @@
             // 
             splitContainer1.Panel1.BackColor = Color.FromArgb(13, 34, 65);
             splitContainer1.Panel1.Controls.Add(btnSalir);
+            splitContainer1.Panel1.Controls.Add(btnConsultas);
             splitContainer1.Panel1.Controls.Add(btnSimulador);
             splitContainer1.Panel1.Controls.Add(btnSensores);
             splitContainer1.Panel1.Controls.Add(btnZonas);
@@ -90,6 +92,25 @@
             btnSalir.TextAlign = ContentAlignment.MiddleLeft;
             btnSalir.UseVisualStyleBackColor = false;
             btnSalir.Click += btnSalir_Click;
+            // 
+            // btnConsultas
+            // 
+            btnConsultas.BackColor = Color.FromArgb(13, 34, 65);
+            btnConsultas.Dock = DockStyle.Top;
+            btnConsultas.FlatAppearance.BorderSize = 0;
+            btnConsultas.FlatAppearance.MouseOverBackColor = Color.FromArgb(62, 102, 187);
+            btnConsultas.FlatStyle = FlatStyle.Flat;
+            btnConsultas.Font = new Font("Bahnschrift Condensed", 15.75F);
+            btnConsultas.ForeColor = Color.FromArgb(254, 255, 255);
+            btnConsultas.Location = new Point(0, 342);
+            btnConsultas.Name = "btnConsultas";
+            btnConsultas.Padding = new Padding(22, 0, 0, 0);
+            btnConsultas.Size = new Size(230, 54);
+            btnConsultas.TabIndex = 6;
+            btnConsultas.Text = "Consultas";
+            btnConsultas.TextAlign = ContentAlignment.MiddleLeft;
+            btnConsultas.UseVisualStyleBackColor = false;
+            btnConsultas.Click += btnConsultas_Click;
             // 
             // btnSimulador
             // 
@@ -219,6 +240,7 @@
         private SplitContainer splitContainer1;
         private Button btnSensores;
         private Button btnSimulador;
+        private Button btnConsultas;
         private Button btnZonas;
         private Label lblMarca;
         private PictureBox Logo;

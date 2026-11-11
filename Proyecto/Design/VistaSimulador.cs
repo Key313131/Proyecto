@@ -16,8 +16,9 @@ namespace Proyecto.Design
             InitializeComponent();
             _sim = SimuladorSensores.GetInstance();
 
-            // Carga lecturas.csv ya: si está dañado, Principal lo avisa al abrir la vista.
-            RepositoryLectura.GetInstance();
+            // Carga lecturas.csv ya (si está dañado, Principal lo avisa al abrir la vista)
+            // y pone el reloj en la hora de la última lectura guardada.
+            _sim.Retomar();
 
             Tema.Tabla(dgvLecturas);
             dgvLecturas.Columns.Add(Tema.Columna("Sensor", "Sensor", 70));

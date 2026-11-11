@@ -29,6 +29,21 @@ namespace Proyecto.Infraestructure
             return GetAll().Where(l => l.SensorId == sensorId);
         }
 
+        // Fecha de la lectura más reciente, o null si no hay ninguna.
+        // O(n): revisa todas, porque no se puede suponer que el archivo esté en orden.
+        public DateTime? UltimaFecha()
+        {
+            DateTime? ultima = null;
+            foreach (Lectura lectura in GetAll())
+            {
+                if (ultima == null || lectura.FechaHora > ultima)
+                {
+                    ultima = lectura.FechaHora;
+                }
+            }
+            return ultima;
+        }
+
         public override void Add(Lectura entity)
         {
             ValidarSensor(entity);

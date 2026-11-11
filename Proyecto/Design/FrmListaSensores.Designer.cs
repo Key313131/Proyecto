@@ -62,7 +62,7 @@
             lblTitulo.Font = new Font("Bahnschrift Condensed", 22.25F);
             lblTitulo.Location = new Point(0, 18);
             lblTitulo.Name = "lblTitulo";
-            lblTitulo.Size = new Size(200, 36);
+            lblTitulo.Size = new Size(226, 36);
             lblTitulo.TabIndex = 2;
             lblTitulo.Text = "Sensores registrados";
             // 
@@ -79,8 +79,6 @@
             // 
             cmbFiltro.BackColor = Color.FromArgb(3, 14, 32);
             cmbFiltro.DisplayMember = "Texto";
-            cmbFiltro.ValueMember = "Id";
-            cmbFiltro.SelectedIndexChanged += cmbFiltro_SelectedIndexChanged;
             cmbFiltro.DropDownStyle = ComboBoxStyle.DropDownList;
             cmbFiltro.FlatStyle = FlatStyle.Flat;
             cmbFiltro.ForeColor = Color.White;
@@ -88,20 +86,22 @@
             cmbFiltro.Name = "cmbFiltro";
             cmbFiltro.Size = new Size(300, 31);
             cmbFiltro.TabIndex = 0;
+            cmbFiltro.ValueMember = "Id";
+            cmbFiltro.SelectedIndexChanged += cmbFiltro_SelectedIndexChanged;
             // 
             // FrmListaSensores
             // 
             AutoScaleDimensions = new SizeF(96F, 96F);
             AutoScaleMode = AutoScaleMode.Dpi;
             BackColor = Color.FromArgb(3, 14, 32);
+            ClientSize = new Size(900, 500);
             Controls.Add(dgvSensores);
             Controls.Add(panelFiltro);
             Font = new Font("Bahnschrift Condensed", 14.25F);
             ForeColor = Color.FromArgb(254, 255, 255);
-            Name = "FrmListaSensores";
-            ClientSize = new Size(900, 500);
-            MinimumSize = new Size(700, 400);
             MinimizeBox = false;
+            MinimumSize = new Size(700, 400);
+            Name = "FrmListaSensores";
             Padding = new Padding(16, 0, 16, 16);
             ShowInTaskbar = false;
             StartPosition = FormStartPosition.CenterParent;
@@ -110,7 +110,6 @@
             panelFiltro.ResumeLayout(false);
             panelFiltro.PerformLayout();
             ResumeLayout(false);
-            PerformLayout();
         }
 
         #endregion

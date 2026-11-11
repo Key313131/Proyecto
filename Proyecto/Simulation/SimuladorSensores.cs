@@ -47,6 +47,7 @@ namespace Proyecto.Simulation
 
         private CancellationTokenSource? _cancelar;
         private long _siguienteId;
+        private bool _retomado;
         private int _pasosSinGuardar;
 
         // Clima: es el mismo para todas las zonas.
@@ -75,8 +76,8 @@ namespace Proyecto.Simulation
                 return;
             }
 
+            Retomar();
             _cancelar = new CancellationTokenSource();
-            _siguienteId = RepositoryLectura.GetInstance().SiguienteId();
 
             // No se espera (await) aquí: el ciclo queda corriendo y Iniciar termina enseguida.
             _ = BucleAsync(_cancelar.Token);
@@ -133,13 +134,32 @@ namespace Proyecto.Simulation
             }
         }
 
+        // Continúa donde quedaron las lecturas guardadas: el siguiente Id y la hora de la
+        // última lectura. Sin esto, al reabrir el programa el reloj volvería a la hora del PC
+        // y las lecturas nuevas podrían quedar con fechas ANTERIORES a las ya guardadas.
+        // Solo se hace una vez: después el reloj sigue avanzando en memoria.
+        public void Retomar()
+        {
+            if (_retomado)
+            {
+                return;
+            }
+
+            RepositoryLectura repo = RepositoryLectura.GetInstance();
+            _siguienteId = repo.SiguienteId();
+
+            DateTime? ultima = repo.UltimaFecha();
+            if (ultima != null)
+            {
+                Reloj = ultima.Value;
+            }
+            _retomado = true;
+        }
+
         // Un paso de simulación. Es público para poder probarlo sin esperar.
         public void Paso()
         {
-            if (_siguienteId == 0)
-            {
-                _siguienteId = RepositoryLectura.GetInstance().SiguienteId();
-            }
+            Retomar();
 
             Reloj += PasoSimulado;
             double temperatura = Temperatura(Reloj);
