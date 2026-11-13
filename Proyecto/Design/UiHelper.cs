@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Windows.Forms;
-
-namespace Proyecto.Presentacion
+﻿namespace Proyecto.Presentacion
 {
     internal static class UiHelper
     {

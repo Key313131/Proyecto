@@ -2,27 +2,10 @@
 
 namespace Proyecto.Algorithms
 {
-    // Algoritmos de búsqueda propios. Cada uno cuenta cuántas comparaciones hizo
-    // (parámetro out) para poder mostrar la diferencia entre O(n) y O(log n).
+    // Algoritmos de búsqueda propios. La binaria cuenta cuántas comparaciones hizo
+    // (parámetro out); las pruebas la comparan con una búsqueda lineal, O(n) frente a O(log n).
     internal static class Busqueda
     {
-        // Búsqueda lineal: revisa uno por uno desde el principio.
-        // O(n). Funciona aunque los datos estén desordenados.
-        // Devuelve la posición del primero que cumple, o -1 si ninguno.
-        public static int Lineal<T>(T[] datos, Predicate<T> esElBuscado, out int comparaciones)
-        {
-            comparaciones = 0;
-            for (int i = 0; i < datos.Length; i++)
-            {
-                comparaciones++;
-                if (esElBuscado(datos[i]))
-                {
-                    return i;
-                }
-            }
-            return -1;
-        }
-
         // Búsqueda binaria: SOLO sirve si los datos están ordenados.
         // Mira el del medio: si es el buscado, termina; si es menor, el buscado está a la
         // derecha; si es mayor, está a la izquierda. Cada vez descarta la mitad.

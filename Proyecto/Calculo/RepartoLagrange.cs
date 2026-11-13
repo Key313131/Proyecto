@@ -28,7 +28,6 @@ namespace Proyecto.Calculo
     internal class ResultadoReparto
     {
         public Lista<ZonaReparto> Zonas { get; } = new Lista<ZonaReparto>();
-        public Lista<string> Detalle { get; } = new Lista<string>();
         public double Litros { get; set; }
         public double Lambda { get; set; }
         public bool Factible { get; set; } = true;
@@ -72,7 +71,6 @@ namespace Proyecto.Calculo
 
             if (r.Zonas.Count == 0)
             {
-                r.Detalle.Add("No hay zonas activas para repartir.");
                 return r;
             }
 
@@ -84,7 +82,6 @@ namespace Proyecto.Calculo
                     z.Asignado = z.Necesidad;
                 }
                 r.TotalAsignado = r.TotalNecesidad;
-                r.Detalle.Add($"El presupuesto alcanza para todo: sobran {litros - r.TotalNecesidad:N0} L. λ = 0 (la restricción no limita).");
                 return r;
             }
 
@@ -99,17 +96,13 @@ namespace Proyecto.Calculo
                     z.EnMinimo = true;
                 }
                 r.TotalAsignado = litros;
-                r.Detalle.Add($"NO ES POSIBLE: la humedad mínima de todas las zonas necesita {r.TotalMinimo:N0} L "
-                    + $"y el presupuesto da {litros:N0} L. Faltan {r.TotalMinimo - litros:N0} L.");
                 return r;
             }
 
             // Caso 3: Lagrange con las zonas "libres"; las que bajan del mínimo se fijan.
-            int vueltas = 0;
             bool huboCambios = true;
             while (huboCambios)
             {
-                vueltas++;
                 double litrosLibres = litros;
                 double sumaW = 0;
                 double sumaInversos = 0;
@@ -152,26 +145,7 @@ namespace Proyecto.Calculo
                 r.TotalAsignado += z.Asignado;
             }
 
-            r.Detalle.Add($"Multiplicador λ = {r.Lambda:0.####} (calculado en {vueltas} vuelta(s))");
-            r.Detalle.Add("Comprobación: en cada zona libre 2·pᵢ·(Wᵢ − xᵢ) debe ser igual a λ");
-            foreach (ZonaReparto z in r.Zonas)
-            {
-                double derivada = 2 * z.Peso * (z.Necesidad - z.Asignado);
-                string tipo = z.EnMinimo ? "en su mínimo (≤ λ)" : "libre (= λ)";
-                r.Detalle.Add($"   {z.Zona.Nombre}: 2·pᵢ·(Wᵢ − xᵢ) = {derivada:0.####}  {tipo}");
-            }
             return r;
-        }
-
-        // El "daño" D(x) = Σ pᵢ (Wᵢ − xᵢ)²: lo que Lagrange minimiza. Sirve para comprobar.
-        public static double Dano(Lista<ZonaReparto> zonas)
-        {
-            double suma = 0;
-            foreach (ZonaReparto z in zonas)
-            {
-                suma += z.Peso * (z.Necesidad - z.Asignado) * (z.Necesidad - z.Asignado);
-            }
-            return suma;
         }
     }
 }

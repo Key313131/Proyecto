@@ -19,13 +19,13 @@ namespace Proyecto.Servicios
     internal class ServicioZonas
     {
         private readonly RepositoryZona _zonas;
-        private readonly RepositorySensor _sensores;
 
         public ServicioZonas()
         {
-            // Cargar aquí hace que un CSV dañado se detecte al crear la vista.
+            // Cargar aquí hace que un CSV dañado se detecte al crear la vista. Los sensores
+            // también se cargan, aunque esta clase no los usa, para avisar del error enseguida.
             _zonas = RepositoryZona.GetInstance();
-            _sensores = RepositorySensor.GetInstance();
+            RepositorySensor.GetInstance();
         }
 
         public IEnumerable<ZonaVerde> Todas()

@@ -1,9 +1,5 @@
 ﻿using Proyecto.Contracts;
 using Proyecto.Exceptions;
-using System;
-using System.Collections.Generic;
-using System.Security.Cryptography;
-using System.Text;
 
 namespace Proyecto.Domain
 {

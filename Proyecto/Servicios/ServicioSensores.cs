@@ -25,11 +25,6 @@ namespace Proyecto.Servicios
             return _sensores.GetByZona(zonaId);
         }
 
-        public IEnumerable<Sensor> ActivosDeZona(long zonaId, TipoSensor tipo)
-        {
-            return _sensores.GetByZona(zonaId).Where(s => s.Activo && s.Tipo == tipo);
-        }
-
         public Sensor? Buscar(long id)
         {
             return _sensores.GetById(id);

@@ -7,7 +7,7 @@ namespace Proyecto.Design
     // Plan de riego del día: qué zonas regar, cuánto, a qué hora y cuánto cuesta.
     //
     // Al usuario se le muestra solo lo esencial. El "por qué" de cada número (el modelo
-    // W, la integral de flujo, Lagrange) está en el botón "Ver cálculo detallado".
+    // W, la integral de flujo, Lagrange) está en Calculo/PlanificadorRiego y RepartoLagrange.
     public partial class VistaCalculo : UserControl
     {
         private readonly ServicioRiego _riego;
@@ -31,7 +31,6 @@ namespace Proyecto.Design
             if (!_riego.HayZonasActivas())
             {
                 btnCalcular.Enabled = false;
-                btnDetalle.Enabled = false;
                 lblEstado.Text = "No hay zonas activas: cree una en Zonas verdes";
                 return;
             }
@@ -65,16 +64,6 @@ namespace Proyecto.Design
         private void btnCalcular_Click(object sender, EventArgs e)
         {
             Calcular();
-        }
-
-        private void btnDetalle_Click(object sender, EventArgs e)
-        {
-            if (_plan == null)
-            {
-                return;
-            }
-            using FrmDetalleCalculo detalle = new FrmDetalleCalculo(_plan.Detalle);
-            detalle.ShowDialog(this);
         }
 
         private void Calcular()

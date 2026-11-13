@@ -12,6 +12,11 @@
     <Folder Include="Asets\" />
   </ItemGroup>
 
+  <!-- El proyecto de pruebas puede usar las clases internal (Ordenamiento, ConsultaLecturas...). -->
+  <ItemGroup>
+    <InternalsVisibleTo Include="Pruebas" />
+  </ItemGroup>
+
   <ItemGroup>
     <Compile Update="Properties\Resources.Designer.cs">
       <DesignTime>True</DesignTime>

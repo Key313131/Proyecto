@@ -58,7 +58,6 @@ namespace Proyecto.Calculo
         public double Ahorro { get; set; }              // %
         public bool CumpleMeta { get; set; }
         public int ZonasSinMedidor { get; set; }
-        public Lista<string> Detalle { get; } = new Lista<string>();
     }
 
     // Indicadores del dashboard: consumo, costo, eficiencia (L/m²) y ahorro frente a
@@ -74,10 +73,6 @@ namespace Proyecto.Calculo
             t.Dias = Math.Max(0, (p.Hasta - p.Desde).TotalDays);
 
             Lista<FilaTablero> filas = new Lista<FilaTablero>();
-            t.Detalle.Add("1. CONSUMO REAL (integral del caudal en el tiempo)");
-            t.Detalle.Add("   V = ∫ Q(t) dt ≈ Σ (Qᵢ + Qᵢ₊₁)/2 · Δt   (regla del trapecio, Q en L/min y Δt en min)");
-            t.Detalle.Add($"   Periodo: {p.Desde:dd/MM/yyyy HH:mm} a {p.Hasta:dd/MM/yyyy HH:mm} = {t.Dias:0.##} días. "
-                + $"Tramos de más de {HuecoMaximo.TotalMinutes:0} min sin lecturas no se cuentan.");
 
             foreach (EntradaConsumo e in entradas)
             {
@@ -95,14 +90,11 @@ namespace Proyecto.Calculo
                         ResultadoConsumo c = Consumo.Litros(medidor, HuecoMaximo);
                         suma += c.Litros;
                         lecturas += medidor.Length;
-                        t.Detalle.Add($"   {e.Zona.Nombre}, medidor {(medidor.Length > 0 ? medidor[0].SensorId : 0)}: "
-                            + $"{medidor.Length} lecturas, {c.Tramos} tramos, {c.Huecos} huecos → {c.Litros:N1} L");
                     }
                     litros = suma / e.Medidores.Length;
                 }
                 else
                 {
-                    t.Detalle.Add($"   {e.Zona.Nombre}: sin medidor de caudal, no se puede saber su consumo");
                     t.ZonasSinMedidor++;
                 }
 
@@ -147,17 +139,6 @@ namespace Proyecto.Calculo
                 t.Zonas.Add(f);
             }
 
-            t.Detalle.Add("2. EFICIENCIA: litros por m² = V / A");
-            t.Detalle.Add($"   Total: {t.Litros:N1} L / {t.Area:N1} m² = {t.LitrosPorM2:0.##} L/m² "
-                + $"({(t.Dias > 0 ? t.LitrosPorM2 / t.Dias : 0):0.##} L/m² por día)");
-            t.Detalle.Add("3. RIEGO TRADICIONAL (línea base): la misma lámina todos los días, sin sensores");
-            t.Detalle.Add($"   Vtrad = lámina × A × días = {p.LaminaTradicional} mm × {t.Area:N1} m² × {t.Dias:0.##} = {t.Tradicional:N1} L");
-            t.Detalle.Add("4. AHORRO = (Vtrad − V) / Vtrad × 100");
-            t.Detalle.Add($"   ({t.Tradicional:N1} − {t.Litros:N1}) / {t.Tradicional:N1} = {t.Ahorro:0.#} %. "
-                + $"Meta {p.MetaAhorro:0.#} %: {(t.CumpleMeta ? "se cumple" : "no se cumple")}");
-            t.Detalle.Add("5. COSTO = V / 1000 × tarifa");
-            t.Detalle.Add($"   {t.Litros:N1} L / 1000 × {p.Tarifa:N0} $/m³ = {t.Costo:N0} $ "
-                + $"(con riego tradicional: {t.Tradicional / 1000 * p.Tarifa:N0} $)");
             return t;
         }
 

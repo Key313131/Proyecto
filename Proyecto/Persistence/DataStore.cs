@@ -1,8 +1,5 @@
 ﻿using Proyecto.Contracts;
 using Proyecto.DynamicStructure;
-using System;
-using System.Collections.Generic;
-using System.Runtime.Serialization;
 using System.Text;
 
 namespace Proyecto.Persistence

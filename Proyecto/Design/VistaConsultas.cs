@@ -1,6 +1,5 @@
 ﻿using Proyecto.Algorithms;
 using Proyecto.Domain;
-using Proyecto.DynamicStructure;
 using Proyecto.Presentacion;
 using Proyecto.Servicios;
 
@@ -10,8 +9,6 @@ namespace Proyecto.Design
     //
     // Para el usuario siempre se ordena con MergeSort (estable y O(n log n) siempre), y
     // solo si hace falta: si las lecturas ya están en el orden pedido no se ordena nada.
-    // La comparación entre algoritmos (lo que pide Estructura de Datos) está aparte,
-    // en el botón "Análisis de algoritmos".
     //
     // El trabajo pesado lo hace el servicio en OTRO hilo (Task.Run); aquí solo se espera
     // con await y se muestra el resultado.
@@ -26,9 +23,6 @@ namespace Proyecto.Design
         // La tabla está en modo virtual: no guarda filas, le pide a CellValueNeeded el valor
         // de cada celda visible. Así puede mostrar 100 000 lecturas sin crear 100 000 filas.
         private Lectura[] _resultado = Array.Empty<Lectura>();
-
-        // Lo que hizo la última consulta, paso a paso, para la ventana de análisis.
-        private Lista<string> _ultimoDetalle = new Lista<string>();
 
         public VistaConsultas()
         {
@@ -84,7 +78,6 @@ namespace Proyecto.Design
                 Desde = chkFechas.Checked ? dtpDesde.Value : null,
                 Hasta = chkFechas.Checked ? dtpHasta.Value : null,
                 Criterio = (CriterioOrden)cmbCriterio.SelectedItem!,
-                Algoritmo = Algoritmo.MergeSort,
                 Descendente = chkDescendente.Checked
             };
 
@@ -95,12 +88,6 @@ namespace Proyecto.Design
         {
             long id = (long)nudId.Value;
             await Ejecutar("Buscando...", () => _lecturas.BuscarPorIdAsync(id));
-        }
-
-        private void btnAnalisis_Click(object sender, EventArgs e)
-        {
-            using FrmAnalisisAlgoritmos analisis = new FrmAnalisisAlgoritmos(_ultimoDetalle);
-            analisis.ShowDialog(this);
         }
 
         // Pide el trabajo al servicio y, cuando termina, muestra el resultado.
@@ -136,9 +123,6 @@ namespace Proyecto.Design
             dgvResultados.RowCount = 0;             // borra lo anterior
             dgvResultados.RowCount = _resultado.Length;
             dgvResultados.Invalidate();
-
-            _ultimoDetalle = r.Detalle;
-            _ultimoDetalle.Add($"Calculado en el hilo #{r.Hilo}; la interfaz usa el hilo #{Environment.CurrentManagedThreadId}");
 
             Ocupado(false, $"{_resultado.Length:N0} lecturas ({r.Milisegundos:0.#} ms)");
         }

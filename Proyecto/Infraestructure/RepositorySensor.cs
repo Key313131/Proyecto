@@ -1,9 +1,6 @@
 ﻿using Proyecto.Domain;
 using Proyecto.Exceptions;
 using Proyecto.Tools;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Proyecto.Infraestructure
 {

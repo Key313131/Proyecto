@@ -1,10 +1,6 @@
 ﻿using Proyecto.Contracts;
 using Proyecto.Exceptions;
 using Proyecto.Tools;
-using System;
-using System.Collections.Generic;
-using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace Proyecto.Domain
 {

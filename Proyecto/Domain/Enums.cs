@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Proyecto.Domain
+﻿namespace Proyecto.Domain
 {
     internal enum TipoSensor
     {

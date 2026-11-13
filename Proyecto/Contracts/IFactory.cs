@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Proyecto.Contracts
+﻿namespace Proyecto.Contracts
 {
     internal interface IFactory<T>
     {

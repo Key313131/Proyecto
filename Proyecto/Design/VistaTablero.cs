@@ -38,7 +38,6 @@ namespace Proyecto.Design
 
             if (!_tablero.HayLecturas())
             {
-                btnDetalle.Enabled = false;
                 lblEstado.Text = "Aún no hay lecturas: inicie el simulador para generar consumo";
             }
             Actualizar();
@@ -55,16 +54,6 @@ namespace Proyecto.Design
         private void btnActualizar_Click(object sender, EventArgs e)
         {
             Actualizar();
-        }
-
-        private void btnDetalle_Click(object sender, EventArgs e)
-        {
-            if (_resultado == null)
-            {
-                return;
-            }
-            using FrmDetalleCalculo detalle = new FrmDetalleCalculo(_resultado.Detalle, "Cálculo detallado del dashboard");
-            detalle.ShowDialog(this);
         }
 
         private void Actualizar()

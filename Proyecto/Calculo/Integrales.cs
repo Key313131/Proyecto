@@ -41,12 +41,6 @@
                 0, radio, 0, 2 * Math.PI, n);
         }
 
-        // Velocidad en el centro del tubo para que pase el caudal Q (m³/s): vmax = 2Q / (πR²)
-        public static double VelocidadMaxima(double caudal, double radio)
-        {
-            return 2 * caudal / (Math.PI * radio * radio);
-        }
-
         // Peso de Simpson del punto i: 1 en los extremos, 4 en los impares, 2 en los pares.
         private static double Peso(int i, int n)
         {

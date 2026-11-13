@@ -1,6 +1,5 @@
 ﻿using Proyecto.Algorithms;
 using Proyecto.Domain;
-using Proyecto.DynamicStructure;
 using Proyecto.Infraestructure;
 
 namespace Proyecto.Servicios
@@ -45,12 +44,6 @@ namespace Proyecto.Servicios
         {
             Lectura[] copia = Copiar();
             return Task.Run(() => ConsultaLecturas.BuscarPorId(copia, id));
-        }
-
-        // No usa lecturas guardadas: inventa n datos, así que no hace falta copiar nada.
-        public Task<Lista<FilaComparacion>> CompararAlgoritmosAsync(int n, IProgress<string>? progreso)
-        {
-            return Task.Run(() => ConsultaLecturas.Comparar(n, progreso));
         }
 
         private Lectura[] Copiar()

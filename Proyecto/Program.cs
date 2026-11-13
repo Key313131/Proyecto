@@ -1,6 +1,3 @@
-using Proyecto.Design;
-using Proyecto.Presentacion;
-
 namespace Proyecto
 {
     internal static class Program

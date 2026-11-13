@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace Proyecto.Tools
+﻿namespace Proyecto.Tools
 {
     internal static class Configuration
     {

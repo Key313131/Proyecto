@@ -53,9 +53,7 @@ namespace Proyecto.Calculo
         public double TotalMinimo { get; set; }
         public double TotalLitros { get; set; }
         public double CostoTotal { get; set; }
-        public double Lambda { get; set; }
         public Lista<string> Resumen { get; } = new Lista<string>();   // para el usuario
-        public Lista<string> Detalle { get; } = new Lista<string>();   // "Ver cálculo detallado"
     }
 
     // Arma el plan de riego del día. Es matemática pura: no lee archivos, así se puede probar.
@@ -130,7 +128,6 @@ namespace Proyecto.Calculo
             // 4. Reparto con Lagrange (si alcanza para todo, cada zona recibe lo que necesita).
             ResultadoReparto reparto = RepartoLagrange.Repartir(aRegar, plan.Limite);
             plan.Factible = reparto.Factible;
-            plan.Lambda = reparto.Lambda;
             foreach (ZonaReparto z in reparto.Zonas)
             {
                 FilaPlan fila = plan.Zonas.FirstOrDefault(f => f.Zona.Id == z.Zona.Id)!;
@@ -156,7 +153,6 @@ namespace Proyecto.Calculo
             }
 
             EscribirResumen(plan, p, orden);
-            EscribirDetalle(plan, p, reparto);
             return plan;
         }
 
@@ -201,57 +197,6 @@ namespace Proyecto.Calculo
                 plan.Resumen.Add(plan.LimitaElDinero
                     ? $"Alcanza para todo. Sobran {sobra / 1000 * p.Tarifa:N0} $ del presupuesto."
                     : $"Alcanza para todo. Quedan {sobra / plan.CaudalPrincipal:N0} min libres en la ventana de riego.");
-            }
-        }
-
-        // El "por qué" de cada número, para quien quiera verlo (y para la sustentación).
-        private static void EscribirDetalle(PlanRiego plan, ParametrosRiego p, ResultadoReparto reparto)
-        {
-            Lista<string> d = plan.Detalle;
-            double et0 = ModeloAgua.Et0(p.Temperatura, p.HorasSol);
-
-            d.Add("1. NECESIDAD DE AGUA DE CADA ZONA (función de varias variables)");
-            d.Add("   W(T, H, A, S) = A · [ Kc · ET₀(T, S) + max(0, Hobj − H) / 100 · Pr · 1000 · θ ]");
-            d.Add($"   ET₀ (Blaney-Criddle) = p · (0,46·T + 8,13), p = S/4380·100 → con T = {p.Temperatura:0.#} °C y S = {p.HorasSol:0.#} h: "
-                + $"ET₀ = {et0:0.##} mm/día. θ = {ModeloAgua.Porosidad}");
-            foreach (FilaPlan f in plan.Zonas)
-            {
-                d.Add($"   {f.Zona.Nombre}: A = {f.Zona.AreaM2:N1} m², Kc = {f.Zona.Kc}, Pr = {f.Zona.ProfundidadRaizM} m, "
-                    + $"H = {f.Humedad:0.#} %, Hobj = {ModeloAgua.HumedadObjetivo(f.Zona):0.#} % → W = {f.Necesidad:N1} L, "
-                    + $"mínimo M = {f.Minimo:N1} L. {f.Motivo}");
-            }
-
-            double q = plan.CaudalPrincipal / 1000 / 60;
-            double formula = Math.PI * RadioTuboPrincipal * RadioTuboPrincipal * VelocidadCentro / 2;
-            d.Add("2. AGUA DISPONIBLE (integral doble de flujo)");
-            d.Add($"   Tubo principal: R = {RadioTuboPrincipal * 100:0.##} cm, velocidad en el centro {VelocidadCentro} m/s, perfil v(r) = vmax(1 − r²/R²)");
-            d.Add($"   Q = ∬ v·n dS = ∫₀^2π ∫₀^R vmax(1 − r²/R²)·r dr dθ = {q:0.######} m³/s (fórmula πR²vmax/2 = {formula:0.######}) "
-                + $"= {plan.CaudalPrincipal:0.##} L/min");
-            d.Add($"   V = Q · t = {plan.CaudalPrincipal:0.##} L/min × {p.HorasDisponibles * 60:0} min = {plan.AguaDisponible:N0} L");
-
-            d.Add("3. AGUA QUE SE PUEDE PAGAR");
-            d.Add($"   {p.Presupuesto:N0} $ / {p.Tarifa:N0} $/m³ = {plan.LitrosPorDinero:N0} L");
-            d.Add($"   Límite del día B = min({plan.AguaDisponible:N0}, {plan.LitrosPorDinero:N0}) = {plan.Limite:N0} L "
-                + $"(lo limita {(plan.LimitaElDinero ? "el dinero" : "el agua")})");
-
-            d.Add("4. REPARTO CON MULTIPLICADORES DE LAGRANGE");
-            d.Add("   minimizar D = Σ pᵢ (Wᵢ − xᵢ)²  sujeto a  Σ xᵢ = B  y  xᵢ ≥ Mᵢ,  con pᵢ = Kcᵢ / Aᵢ");
-            d.Add("   ∂L/∂xᵢ = −2pᵢ(Wᵢ − xᵢ) + λ = 0  →  xᵢ = Wᵢ − λ/(2pᵢ),   λ = 2(ΣWᵢ − B) / Σ(1/pᵢ)");
-            d.Add($"   Necesidad total ΣW = {reparto.TotalNecesidad:N0} L, mínimo total ΣM = {reparto.TotalMinimo:N0} L");
-            foreach (string linea in reparto.Detalle)
-            {
-                d.Add("   " + linea);
-            }
-
-            d.Add("5. HORARIO (una válvula a la vez, la zona más seca primero)");
-            d.Add($"   Duración de cada zona = litros / Q = litros / {plan.CaudalPrincipal:0.##} L/min");
-            foreach (FilaPlan f in plan.Zonas)
-            {
-                if (f.Desde != null)
-                {
-                    d.Add($"   {f.Zona.Nombre}: {f.Litros:N0} L / {plan.CaudalPrincipal:0.##} = {(f.Hasta - f.Desde)!.Value.TotalMinutes:0.#} min "
-                        + $"→ {Hora(f.Desde.Value)} a {Hora(f.Hasta!.Value)}");
-                }
             }
         }
 

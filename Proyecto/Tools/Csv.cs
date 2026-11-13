@@ -1,8 +1,5 @@
 ﻿using Proyecto.Exceptions;
-using System;
-using System.Collections.Generic;
 using System.Globalization;
-using System.Text;
 
 namespace Proyecto.Tools
 {

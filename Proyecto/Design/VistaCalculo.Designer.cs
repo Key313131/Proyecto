@@ -43,7 +43,6 @@
             lblTarifa = new Label();
             nudTarifa = new NumericUpDown();
             btnCalcular = new Button();
-            btnDetalle = new Button();
             panelDatos = new Panel();
             lblEstado = new Label();
             lblTitulo = new Label();
@@ -224,20 +223,6 @@
             btnCalcular.UseVisualStyleBackColor = false;
             btnCalcular.Click += btnCalcular_Click;
             //
-            // btnDetalle
-            //
-            btnDetalle.BackColor = Color.FromArgb(38, 62, 100);
-            btnDetalle.FlatAppearance.BorderSize = 0;
-            btnDetalle.FlatStyle = FlatStyle.Flat;
-            btnDetalle.ForeColor = Color.FromArgb(254, 255, 255);
-            btnDetalle.Location = new Point(16, 470);
-            btnDetalle.Name = "btnDetalle";
-            btnDetalle.Size = new Size(218, 36);
-            btnDetalle.TabIndex = 13;
-            btnDetalle.Text = "Ver cálculo detallado";
-            btnDetalle.UseVisualStyleBackColor = false;
-            btnDetalle.Click += btnDetalle_Click;
-            //
             // panelDatos
             //
             panelDatos.AutoScroll = true;
@@ -255,7 +240,6 @@
             panelDatos.Controls.Add(lblTarifa);
             panelDatos.Controls.Add(nudTarifa);
             panelDatos.Controls.Add(btnCalcular);
-            panelDatos.Controls.Add(btnDetalle);
             panelDatos.Dock = DockStyle.Right;
             panelDatos.Name = "panelDatos";
             panelDatos.Size = new Size(250, 628);
@@ -324,7 +308,6 @@
         private Label lblTarifa;
         private NumericUpDown nudTarifa;
         private Button btnCalcular;
-        private Button btnDetalle;
         private Panel panelDatos;
         private Label lblEstado;
         private Label lblTitulo;

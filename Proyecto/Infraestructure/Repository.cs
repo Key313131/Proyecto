@@ -2,9 +2,6 @@
 using Proyecto.DynamicStructure;
 using Proyecto.Exceptions;
 using Proyecto.Persistence;
-using System;
-using System.Collections.Generic;
-using System.Text;
 
 namespace Proyecto.Infraestructure
 {

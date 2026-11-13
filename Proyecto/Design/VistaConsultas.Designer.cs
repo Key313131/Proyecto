@@ -41,7 +41,6 @@
             lblId = new Label();
             nudId = new NumericUpDown();
             btnBuscarId = new Button();
-            btnAnalisis = new Button();
             panelFiltros = new Panel();
             lblEstado = new Label();
             lblTitulo = new Label();
@@ -189,20 +188,6 @@
             btnBuscarId.UseVisualStyleBackColor = false;
             btnBuscarId.Click += btnBuscarId_Click;
             //
-            // btnAnalisis
-            //
-            btnAnalisis.BackColor = Color.FromArgb(38, 62, 100);
-            btnAnalisis.FlatAppearance.BorderSize = 0;
-            btnAnalisis.FlatStyle = FlatStyle.Flat;
-            btnAnalisis.ForeColor = Color.FromArgb(254, 255, 255);
-            btnAnalisis.Location = new Point(16, 432);
-            btnAnalisis.Name = "btnAnalisis";
-            btnAnalisis.Size = new Size(218, 36);
-            btnAnalisis.TabIndex = 12;
-            btnAnalisis.Text = "Análisis de algoritmos";
-            btnAnalisis.UseVisualStyleBackColor = false;
-            btnAnalisis.Click += btnAnalisis_Click;
-            //
             // panelFiltros
             //
             panelFiltros.AutoScroll = true;
@@ -219,7 +204,6 @@
             panelFiltros.Controls.Add(lblId);
             panelFiltros.Controls.Add(nudId);
             panelFiltros.Controls.Add(btnBuscarId);
-            panelFiltros.Controls.Add(btnAnalisis);
             panelFiltros.Dock = DockStyle.Right;
             panelFiltros.Name = "panelFiltros";
             panelFiltros.Size = new Size(250, 628);
@@ -281,7 +265,6 @@
         private Label lblId;
         private NumericUpDown nudId;
         private Button btnBuscarId;
-        private Button btnAnalisis;
         private Panel panelFiltros;
         private Label lblEstado;
         private Label lblTitulo;

@@ -47,7 +47,6 @@
             cmbOrden = new ComboBox();
             chkDescendente = new CheckBox();
             btnActualizar = new Button();
-            btnDetalle = new Button();
             panelDatos = new Panel();
             lblEstado = new Label();
             lblTitulo = new Label();
@@ -266,20 +265,6 @@
             btnActualizar.UseVisualStyleBackColor = false;
             btnActualizar.Click += btnActualizar_Click;
             //
-            // btnDetalle
-            //
-            btnDetalle.BackColor = Color.FromArgb(38, 62, 100);
-            btnDetalle.FlatAppearance.BorderSize = 0;
-            btnDetalle.FlatStyle = FlatStyle.Flat;
-            btnDetalle.ForeColor = Color.FromArgb(254, 255, 255);
-            btnDetalle.Location = new Point(16, 434);
-            btnDetalle.Name = "btnDetalle";
-            btnDetalle.Size = new Size(218, 36);
-            btnDetalle.TabIndex = 12;
-            btnDetalle.Text = "Ver cálculo detallado";
-            btnDetalle.UseVisualStyleBackColor = false;
-            btnDetalle.Click += btnDetalle_Click;
-            //
             // panelDatos
             //
             panelDatos.AutoScroll = true;
@@ -296,7 +281,6 @@
             panelDatos.Controls.Add(cmbOrden);
             panelDatos.Controls.Add(chkDescendente);
             panelDatos.Controls.Add(btnActualizar);
-            panelDatos.Controls.Add(btnDetalle);
             panelDatos.Dock = DockStyle.Right;
             panelDatos.Name = "panelDatos";
             panelDatos.Size = new Size(250, 628);
@@ -370,7 +354,6 @@
         private ComboBox cmbOrden;
         private CheckBox chkDescendente;
         private Button btnActualizar;
-        private Button btnDetalle;
         private Panel panelDatos;
         private Label lblEstado;
         private Label lblTitulo;
