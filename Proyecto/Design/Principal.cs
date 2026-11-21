@@ -1,4 +1,5 @@
 ﻿using Proyecto.Exceptions;
+using Proyecto.Servicios;
 using Proyecto.Simulation;
 using Proyecto.Tools;
 
@@ -10,6 +11,10 @@ namespace Proyecto.Design
         {
             InitializeComponent();
             lblDatos.Text = $"Datos en: {Configuration.Carpeta}";
+
+            // Solo el administrador (el primer usuario creado) puede registrar más usuarios.
+            btnUsuarios.Visible = SesionActual.EsAdmin;
+            Text = $"EcoFacility - Gestión hídrica de zonas verdes  ·  {SesionActual.Usuario}";
 
             // Al cerrar, se detiene el simulador para que guarde lo que tenga en la cola.
             FormClosing += (s, a) => SimuladorSensores.GetInstance().Detener();
@@ -90,6 +95,12 @@ namespace Proyecto.Design
         private void btnTablero_Click(object sender, EventArgs e)
         {
             Mostrar(() => new VistaTablero(), btnTablero);
+        }
+
+        private void btnUsuarios_Click(object sender, EventArgs e)
+        {
+            using FrmUsuario formulario = new FrmUsuario();
+            formulario.ShowDialog(this);
         }
 
         private void btnSalir_Click(object sender, EventArgs e)

@@ -29,6 +29,7 @@
         private void InitializeComponent()
         {
             splitContainer1 = new SplitContainer();
+            btnUsuarios = new Button();
             btnSalir = new Button();
             btnTablero = new Button();
             btnCalculo = new Button();
@@ -58,6 +59,7 @@
             // splitContainer1.Panel1
             // 
             splitContainer1.Panel1.BackColor = Color.FromArgb(13, 34, 65);
+            splitContainer1.Panel1.Controls.Add(btnUsuarios);
             splitContainer1.Panel1.Controls.Add(btnSalir);
             splitContainer1.Panel1.Controls.Add(btnTablero);
             splitContainer1.Panel1.Controls.Add(btnCalculo);
@@ -77,6 +79,26 @@
             splitContainer1.SplitterDistance = 230;
             splitContainer1.SplitterWidth = 1;
             splitContainer1.TabIndex = 0;
+            // 
+            // btnUsuarios
+            // 
+            btnUsuarios.BackColor = Color.FromArgb(13, 34, 65);
+            btnUsuarios.Dock = DockStyle.Bottom;
+            btnUsuarios.FlatAppearance.BorderSize = 0;
+            btnUsuarios.FlatAppearance.MouseOverBackColor = Color.FromArgb(62, 102, 187);
+            btnUsuarios.FlatStyle = FlatStyle.Flat;
+            btnUsuarios.Font = new Font("Bahnschrift Condensed", 15.75F);
+            btnUsuarios.ForeColor = Color.FromArgb(254, 255, 255);
+            btnUsuarios.Location = new Point(0, 612);
+            btnUsuarios.Name = "btnUsuarios";
+            btnUsuarios.Padding = new Padding(22, 0, 0, 0);
+            btnUsuarios.Size = new Size(230, 54);
+            btnUsuarios.TabIndex = 9;
+            btnUsuarios.Text = "Agregar usuario";
+            btnUsuarios.TextAlign = ContentAlignment.MiddleLeft;
+            btnUsuarios.UseVisualStyleBackColor = false;
+            btnUsuarios.Visible = false;
+            btnUsuarios.Click += btnUsuarios_Click;
             // 
             // btnSalir
             // 
@@ -289,6 +311,7 @@
         private Label lblMarca;
         private PictureBox Logo;
         private Button btnSalir;
+        private Button btnUsuarios;
         private Panel panelContenido;
         private Label lblDatos;
     }

@@ -28,161 +28,163 @@
         /// </summary>
         private void InitializeComponent()
         {
-            panel1 = new Panel();
-            pictureBox2 = new PictureBox();
-            textBox1 = new TextBox();
-            button1 = new Button();
-            label3 = new Label();
-            textBox2 = new TextBox();
-            label2 = new Label();
-            label1 = new Label();
-            pictureBox1 = new PictureBox();
-            panel1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).BeginInit();
+            panelLogin = new Panel();
+            picVerContrasena = new PictureBox();
+            txtUsuario = new TextBox();
+            btnIngresar = new Button();
+            lblContrasena = new Label();
+            txtContrasena = new TextBox();
+            lblUsuario = new Label();
+            lblTitulo = new Label();
+            picLogo = new PictureBox();
+            panelLogin.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)picVerContrasena).BeginInit();
+            ((System.ComponentModel.ISupportInitialize)picLogo).BeginInit();
             SuspendLayout();
             // 
-            // panel1
+            // panelLogin
             // 
-            panel1.BackColor = Color.FromArgb(13, 34, 65);
-            panel1.BorderStyle = BorderStyle.FixedSingle;
-            panel1.Controls.Add(pictureBox2);
-            panel1.Controls.Add(textBox1);
-            panel1.Controls.Add(button1);
-            panel1.Controls.Add(label3);
-            panel1.Controls.Add(textBox2);
-            panel1.Controls.Add(label2);
-            panel1.Location = new Point(388, 165);
-            panel1.Name = "panel1";
-            panel1.Size = new Size(381, 343);
-            panel1.TabIndex = 0;
+            panelLogin.BackColor = Color.FromArgb(13, 34, 65);
+            panelLogin.BorderStyle = BorderStyle.FixedSingle;
+            panelLogin.Controls.Add(picVerContrasena);
+            panelLogin.Controls.Add(txtUsuario);
+            panelLogin.Controls.Add(btnIngresar);
+            panelLogin.Controls.Add(lblContrasena);
+            panelLogin.Controls.Add(txtContrasena);
+            panelLogin.Controls.Add(lblUsuario);
+            panelLogin.Location = new Point(388, 165);
+            panelLogin.Name = "panelLogin";
+            panelLogin.Size = new Size(381, 343);
+            panelLogin.TabIndex = 0;
             // 
-            // pictureBox2
+            // picVerContrasena
             // 
-            pictureBox2.BackColor = Color.FromArgb(3, 14, 32);
-            pictureBox2.Image = Properties.Resources.visibility_off_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24;
-            pictureBox2.Location = new Point(318, 184);
-            pictureBox2.Name = "pictureBox2";
-            pictureBox2.Size = new Size(45, 34);
-            pictureBox2.SizeMode = PictureBoxSizeMode.Zoom;
-            pictureBox2.TabIndex = 6;
-            pictureBox2.TabStop = false;
+            picVerContrasena.BackColor = Color.FromArgb(3, 14, 32);
+            picVerContrasena.Image = Properties.Resources.visibility_off_24dp_E3E3E3_FILL0_wght400_GRAD0_opsz24;
+            picVerContrasena.Location = new Point(318, 184);
+            picVerContrasena.Name = "picVerContrasena";
+            picVerContrasena.Size = new Size(45, 34);
+            picVerContrasena.SizeMode = PictureBoxSizeMode.Zoom;
+            picVerContrasena.TabIndex = 6;
+            picVerContrasena.TabStop = false;
+            picVerContrasena.Cursor = Cursors.Hand;
+            picVerContrasena.Click += picVerContrasena_Click;
             // 
-            // textBox1
+            // txtUsuario
             // 
-            textBox1.BackColor = Color.FromArgb(3, 14, 32);
-            textBox1.BorderStyle = BorderStyle.FixedSingle;
-            textBox1.Font = new Font("Bahnschrift Condensed", 18.25F);
-            textBox1.ForeColor = Color.White;
-            textBox1.Location = new Point(15, 83);
-            textBox1.Multiline = true;
-            textBox1.Name = "textBox1";
-            textBox1.PlaceholderText = "   Usuario";
-            textBox1.Size = new Size(351, 43);
-            textBox1.TabIndex = 1;
+            txtUsuario.BackColor = Color.FromArgb(3, 14, 32);
+            txtUsuario.BorderStyle = BorderStyle.FixedSingle;
+            txtUsuario.Font = new Font("Bahnschrift Condensed", 18.25F);
+            txtUsuario.ForeColor = Color.White;
+            txtUsuario.Location = new Point(15, 83);
+            txtUsuario.Name = "txtUsuario";
+            txtUsuario.PlaceholderText = "   Usuario";
+            txtUsuario.Size = new Size(351, 43);
+            txtUsuario.TabIndex = 1;
             // 
-            // button1
+            // btnIngresar
             // 
-            button1.BackColor = Color.LimeGreen;
-            button1.FlatStyle = FlatStyle.Popup;
-            button1.Font = new Font("Bahnschrift Condensed", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
-            button1.ForeColor = Color.Transparent;
-            button1.Location = new Point(15, 245);
-            button1.Name = "button1";
-            button1.Size = new Size(348, 45);
-            button1.TabIndex = 0;
-            button1.Text = "Ingresar";
-            button1.UseVisualStyleBackColor = false;
-            button1.Click += button1_Click;
+            btnIngresar.BackColor = Color.LimeGreen;
+            btnIngresar.FlatStyle = FlatStyle.Popup;
+            btnIngresar.Font = new Font("Bahnschrift Condensed", 15.75F, FontStyle.Regular, GraphicsUnit.Point, 0);
+            btnIngresar.ForeColor = Color.Transparent;
+            btnIngresar.Location = new Point(15, 245);
+            btnIngresar.Name = "btnIngresar";
+            btnIngresar.Size = new Size(348, 45);
+            btnIngresar.TabIndex = 3;
+            btnIngresar.Text = "Ingresar";
+            btnIngresar.UseVisualStyleBackColor = false;
+            btnIngresar.Click += btnIngresar_Click;
             // 
-            // label3
+            // lblContrasena
             // 
-            label3.AutoSize = true;
-            label3.Font = new Font("Bahnschrift Condensed", 18.25F);
-            label3.ForeColor = Color.FromArgb(254, 255, 255);
-            label3.Location = new Point(15, 140);
-            label3.Name = "label3";
-            label3.Size = new Size(106, 30);
-            label3.TabIndex = 5;
-            label3.Text = "Contraseña";
+            lblContrasena.AutoSize = true;
+            lblContrasena.Font = new Font("Bahnschrift Condensed", 18.25F);
+            lblContrasena.ForeColor = Color.FromArgb(254, 255, 255);
+            lblContrasena.Location = new Point(15, 140);
+            lblContrasena.Name = "lblContrasena";
+            lblContrasena.Size = new Size(106, 30);
+            lblContrasena.TabIndex = 5;
+            lblContrasena.Text = "Contraseña";
             // 
-            // textBox2
+            // txtContrasena
             // 
-            textBox2.BackColor = Color.FromArgb(3, 14, 32);
-            textBox2.BorderStyle = BorderStyle.FixedSingle;
-            textBox2.Font = new Font("Bahnschrift Condensed", 18.25F);
-            textBox2.ForeColor = Color.White;
-            textBox2.Location = new Point(15, 180);
-            textBox2.Multiline = true;
-            textBox2.Name = "textBox2";
-            textBox2.PlaceholderText = "   Contraseña";
-            textBox2.Size = new Size(351, 43);
-            textBox2.TabIndex = 2;
+            txtContrasena.BackColor = Color.FromArgb(3, 14, 32);
+            txtContrasena.BorderStyle = BorderStyle.FixedSingle;
+            txtContrasena.Font = new Font("Bahnschrift Condensed", 18.25F);
+            txtContrasena.ForeColor = Color.White;
+            txtContrasena.Location = new Point(15, 180);
+            txtContrasena.Name = "txtContrasena";
+            txtContrasena.PlaceholderText = "   Contraseña";
+            txtContrasena.Size = new Size(351, 43);
+            txtContrasena.TabIndex = 2;
+            txtContrasena.UseSystemPasswordChar = true;
             // 
-            // label2
+            // lblUsuario
             // 
-            label2.AutoSize = true;
-            label2.Font = new Font("Bahnschrift Condensed", 18.25F);
-            label2.ForeColor = Color.FromArgb(254, 255, 255);
-            label2.Location = new Point(15, 35);
-            label2.Name = "label2";
-            label2.Size = new Size(147, 30);
-            label2.TabIndex = 3;
-            label2.Text = "Usuario o Correo";
+            lblUsuario.AutoSize = true;
+            lblUsuario.Font = new Font("Bahnschrift Condensed", 18.25F);
+            lblUsuario.ForeColor = Color.FromArgb(254, 255, 255);
+            lblUsuario.Location = new Point(15, 35);
+            lblUsuario.Name = "lblUsuario";
+            lblUsuario.Size = new Size(147, 30);
+            lblUsuario.TabIndex = 3;
+            lblUsuario.Text = "Usuario";
             // 
-            // label1
+            // lblTitulo
             // 
-            label1.AutoSize = true;
-            label1.Font = new Font("Bahnschrift Condensed", 22.25F);
-            label1.ForeColor = Color.FromArgb(254, 255, 255);
-            label1.Location = new Point(458, 106);
-            label1.Name = "label1";
-            label1.Size = new Size(283, 36);
-            label1.TabIndex = 1;
-            label1.Text = "Inicia Sesion en EcoFacility";
+            lblTitulo.AutoSize = true;
+            lblTitulo.Font = new Font("Bahnschrift Condensed", 22.25F);
+            lblTitulo.ForeColor = Color.FromArgb(254, 255, 255);
+            lblTitulo.Location = new Point(458, 106);
+            lblTitulo.Name = "lblTitulo";
+            lblTitulo.Size = new Size(283, 36);
+            lblTitulo.TabIndex = 1;
+            lblTitulo.Text = "Inicia sesión en EcoFacility";
             // 
-            // pictureBox1
+            // picLogo
             // 
-            pictureBox1.BackColor = Color.Transparent;
-            pictureBox1.Image = Properties.Resources.image_removebg_preview;
-            pictureBox1.Location = new Point(493, 12);
-            pictureBox1.Name = "pictureBox1";
-            pictureBox1.Size = new Size(170, 101);
-            pictureBox1.SizeMode = PictureBoxSizeMode.StretchImage;
-            pictureBox1.TabIndex = 2;
-            pictureBox1.TabStop = false;
+            picLogo.BackColor = Color.Transparent;
+            picLogo.Image = Properties.Resources.image_removebg_preview;
+            picLogo.Location = new Point(493, 12);
+            picLogo.Name = "picLogo";
+            picLogo.Size = new Size(170, 101);
+            picLogo.SizeMode = PictureBoxSizeMode.StretchImage;
+            picLogo.TabIndex = 2;
+            picLogo.TabStop = false;
             // 
-            // Form1
+            // Sesion
             // 
             AutoScaleDimensions = new SizeF(7F, 15F);
             AutoScaleMode = AutoScaleMode.Font;
             BackColor = Color.FromArgb(3, 14, 32);
             ClientSize = new Size(1197, 622);
-            Controls.Add(pictureBox1);
-            Controls.Add(label1);
-            Controls.Add(panel1);
+            Controls.Add(picLogo);
+            Controls.Add(lblTitulo);
+            Controls.Add(panelLogin);
             MaximizeBox = false;
-            Name = "Form1";
+            AcceptButton = btnIngresar;
+            Name = "Sesion";
             StartPosition = FormStartPosition.CenterScreen;
-            Text = "Form1";
-            panel1.ResumeLayout(false);
-            panel1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)pictureBox2).EndInit();
-            ((System.ComponentModel.ISupportInitialize)pictureBox1).EndInit();
+            Text = "EcoFacility - Iniciar sesión";
+            panelLogin.ResumeLayout(false);
+            panelLogin.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)picVerContrasena).EndInit();
+            ((System.ComponentModel.ISupportInitialize)picLogo).EndInit();
             ResumeLayout(false);
             PerformLayout();
         }
 
         #endregion
 
-        private Panel panel1;
-        private Label label1;
-        private PictureBox pictureBox1;
-        private Label label2;
-        private Label label3;
-        private TextBox textBox2;
-        private Button button1;
-        private TextBox textBox1;
-        private PictureBox pictureBox2;
+        private Panel panelLogin;
+        private Label lblTitulo;
+        private PictureBox picLogo;
+        private Label lblUsuario;
+        private Label lblContrasena;
+        private TextBox txtContrasena;
+        private Button btnIngresar;
+        private TextBox txtUsuario;
+        private PictureBox picVerContrasena;
     }
 }

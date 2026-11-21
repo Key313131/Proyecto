@@ -13,6 +13,7 @@ namespace Proyecto.Pruebas
     // 3. Compara la búsqueda lineal con la binaria.
     // 4. Genera la comparación de algoritmos de la Tabla 2 del documento.
     // 5. Revisa la integral de flujo y el reparto de Lagrange (PruebasCalculo.cs).
+    // 6. Revisa las contraseñas y las reglas del administrador (PruebasUsuarios.cs).
     //
     // Al final dice cuántas pruebas fallaron (y termina con código 1 si alguna falló).
     internal static class Program
@@ -38,6 +39,9 @@ namespace Proyecto.Pruebas
 
             Titulo("5. Cálculos: integral de flujo y reparto de Lagrange");
             PruebasCalculo.Ejecutar((correcto, prueba) => Revisar(correcto, prueba));
+
+            Titulo("6. Usuarios e inicio de sesión");
+            PruebasUsuarios.Ejecutar((correcto, prueba) => Revisar(correcto, prueba));
 
             Console.WriteLine();
             Console.WriteLine($"Resultado: {_pasadas} pruebas correctas, {_fallidas} fallidas.");

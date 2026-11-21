@@ -22,6 +22,8 @@
                 return Path.Combine(Carpeta, "lecturas.csv"); 
             } 
         }
+
+        public static string ArchivoUsuarios => Path.Combine(Carpeta, "usuarios.csv");
     }
 
 }
